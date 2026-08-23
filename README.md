@@ -177,11 +177,19 @@ npm run probar                      # 15 pruebas del endpoint (no envían correo
 ./scripts/probar-reserva.sh https://almadraba08.com --con-envio
 node scripts/capturas.mjs           # capturas en móvil, tablet y escritorio
 npm run vista-previa                # portada en un solo HTML autocontenido
+npm run contraste                   # legibilidad del hero sobre la foto
 ```
 
 Con `--con-envio` son 21 e incluyen el envío real, las cabeceras del correo
 y el limitador. Cada ejecución usa una IP distinta, así que se puede repetir
 sin agotar el cupo.
+
+`npm run contraste` mide el contraste real del wordmark, el claim y el
+descriptor **sobre los píxeles de la fotografía**, no sobre un color plano:
+recorta la zona de cada texto, calcula la luminancia media y la del 10 % de
+píxeles más claros —el peor caso, que el promedio disimula— y comprueba el
+resultado contra WCAG AA. Conviene pasarlo cada vez que cambie la foto del
+hero; el flujo de integración continua ya lo hace.
 
 `npm run vista-previa` empaqueta la portada en un único archivo HTML con el
 CSS y las tipografías empotrados: se abre con doble clic o se sube a

@@ -32,13 +32,28 @@ const { t } = Astro.props;
   .scrim {
     position: absolute;
     inset: 0;
-    /* Mar abajo, cielo arriba: el degradado ya no es petróleo plano */
-    background: linear-gradient(
-      to top,
-      rgba(17, 95, 107, 0.66),
-      rgba(58, 167, 159, 0.14) 52%,
-      rgba(127, 180, 212, 0.26)
-    );
+    /* Dos capas con oficios distintos.
+       La primera es legibilidad: una sombra anclada abajo, justo donde va
+       el texto, que se disuelve antes de la mitad para no ensuciar la
+       fotografía. Sin ella el claim depende de lo que haya debajo — sobre
+       una pared blanca al sol desaparece.
+       La segunda es atmósfera: mar abajo, cielo arriba, apenas insinuado.
+       Medir con `npm run contraste` tras cambiar cualquiera de las dos. */
+    background:
+      linear-gradient(
+        to top,
+        rgba(6, 38, 44, 0.9) 0%,
+        rgba(6, 38, 44, 0.78) 22%,
+        rgba(6, 38, 44, 0.46) 42%,
+        rgba(6, 38, 44, 0.12) 60%,
+        rgba(6, 38, 44, 0) 72%
+      ),
+      linear-gradient(
+        to top,
+        rgba(17, 95, 107, 0.3),
+        rgba(58, 167, 159, 0.12) 52%,
+        rgba(127, 180, 212, 0.24)
+      );
     pointer-events: none;
   }
   .hero-content {

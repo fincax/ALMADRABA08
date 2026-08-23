@@ -99,6 +99,13 @@ jobs:
       - name: Revisión visual y desbordamiento horizontal
         run: node scripts/capturas.mjs http://127.0.0.1:4321 capturas
 
+      - name: Contraste del texto del hero sobre la foto
+        # El resto de contrastes se calculan sobre colores planos; este es
+        # el único texto que va encima de una imagen, así que hay que
+        # medirlo sobre los píxeles de verdad. Cada foto nueva del hero
+        # vuelve a pasar por aquí.
+        run: node scripts/contraste-hero.mjs http://127.0.0.1:4321
+
       - name: Guardar las capturas
         if: always()
         uses: actions/upload-artifact@v4

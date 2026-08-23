@@ -9,7 +9,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "probar": "./scripts/probar-reserva.sh",
-    "vista-previa": "node scripts/vista-previa.mjs"
+    "vista-previa": "node scripts/vista-previa.mjs",
+    "contraste": "node scripts/contraste-hero.mjs"
   },
   "dependencies": {
     "@astrojs/node": "^11.1.4",
@@ -20,6 +21,7 @@
   "devDependencies": {
     "@types/nodemailer": "^8.0.1",
     "playwright": "^1.62.1",
+    "pngjs": "^7.0.0",
     "smtp-server": "^3.19.3"
   }
 }
