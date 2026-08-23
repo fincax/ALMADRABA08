@@ -115,9 +115,18 @@ systemctl status almadraba8
 `/etc/nginx/sites-available/almadraba8`:
 
 ```nginx
+# El canónico es www.almadraba08.com; el dominio a secas redirige a él.
+# Un solo canónico evita contenido duplicado en buscadores y que el
+# formulario reciba orígenes distintos.
 server {
     listen 80;
-    server_name almadraba08.com www.almadraba08.com;
+    server_name almadraba08.com;
+    return 301 https://www.almadraba08.com$request_uri;
+}
+
+server {
+    listen 80;
+    server_name www.almadraba08.com;
     root /var/www/almadraba8/app/dist/client;
 
     # Solo el endpoint pasa por Node; el resto lo sirve Nginx directamente,
@@ -188,7 +197,7 @@ Desde el propio servidor, pasando la batería completa — trece pruebas de
 validación, seguridad y antibots que **no** envían ningún correo:
 
 ```sh
-./scripts/probar-reserva.sh https://almadraba08.com
+./scripts/probar-reserva.sh https://www.almadraba08.com
 ```
 
 Añadiendo `--con-envio` manda además una solicitud real, para comprobar que
@@ -197,8 +206,8 @@ el correo llega de verdad. Conviene pasarlo después de cada despliegue.
 Para una comprobación suelta a mano:
 
 ```sh
-curl -s -X POST https://almadraba08.com/api/reserva \
-  -H 'Accept: application/json' -H 'Origin: https://almadraba08.com' \
+curl -s -X POST https://www.almadraba08.com/api/reserva \
+  -H 'Accept: application/json' -H 'Origin: https://www.almadraba08.com' \
   -F 'nombre=Prueba' -F 'email=tu@correo.com' \
   -F 'llegada=2027-07-03' -F 'salida=2027-07-10' \
   -F 'personas=2' -F 'consentimiento=on' -F '_lang=es' \

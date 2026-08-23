@@ -4,7 +4,7 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://almadraba08.com',
+  site: 'https://www.almadraba08.com',
 
   // Las páginas se siguen generando estáticas: el adaptador solo existe
   // para que /api/reserva pueda ejecutarse en el servidor (ese archivo es

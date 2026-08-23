@@ -4,7 +4,7 @@
  */
 export const site = {
   domain: 'almadraba08.com',
-  url: 'https://almadraba08.com',
+  url: 'https://www.almadraba08.com',
 
   /**
    * El formulario envía a nuestro propio endpoint, /api/reserva, que manda

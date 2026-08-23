@@ -174,7 +174,7 @@ endpoint contra un SMTP de mentira y la revisión visual. A mano:
 
 ```sh
 npm run probar                      # 15 pruebas del endpoint (no envían correo)
-./scripts/probar-reserva.sh https://almadraba08.com --con-envio
+./scripts/probar-reserva.sh https://www.almadraba08.com --con-envio
 node scripts/capturas.mjs           # capturas en móvil, tablet y escritorio
 npm run vista-previa                # portada en un solo HTML autocontenido
 npm run contraste                   # legibilidad del hero sobre la foto
