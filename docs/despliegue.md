@@ -251,6 +251,22 @@ salida.
 Son cinco envíos por hora e IP, más un tope de treinta peticiones. Si algún
 día hicieran falta varios procesos, habría que sacarlo a un almacén común.
 
+**La IP del visitante sale de `X-Forwarded-For`, y eso depende de Nginx.**
+El proceso Node solo ve conexiones desde 127.0.0.1, así que sin esa cabecera
+todas las visitas parecerían la misma y compartirían un único cupo de cinco
+envíos por hora: cinco solicitudes y el formulario cerrado para todo el
+mundo. La línea que lo evita es
+
+```nginx
+proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+```
+
+y **no se puede quitar**. El endpoint se queda con el *último* valor de la
+cabecera, que es el que añade Nginx y el único que el visitante no puede
+falsificar. Astro trae su propio manejo de esta cabecera, pero solo la
+respeta cuando el `Host` valida contra su lista de dominios permitidos, cosa
+que aquí no se cumple — de ahí que se resuelva a mano en el endpoint.
+
 **Copia de seguridad.** Lo único que no está en el repositorio es
 `/etc/almadraba8.env` y, si se ha editado a mano en el servidor,
 `dist/client/availability.json`.

@@ -70,6 +70,35 @@ function recientes(mapa: Map<string, number[]>, ip: string): number[] {
   return previos;
 }
 
+/**
+ * IP real del visitante.
+ *
+ * Astro solo hace caso a `x-forwarded-for` cuando el `Host` valida contra su
+ * lista de dominios permitidos, y detrás de Nginx eso no se cumple: todas
+ * las visitas llegarían como 127.0.0.1 y compartirían un único cupo de cinco
+ * envíos por hora. Es decir, cinco solicitudes y el formulario se cierra
+ * para todo el mundo.
+ *
+ * Se resuelve aquí. Nginx usa `proxy_add_x_forwarded_for`, que deja la
+ * cabecera como «lo que mandara el visitante, IP real». El ÚLTIMO valor es
+ * el que añade Nginx y el único que no se puede falsificar; los anteriores
+ * los escribe quien quiera. Solo se mira si la conexión viene de local:
+ * el proceso escucha en 127.0.0.1 y nadie más que el proxy puede llegar.
+ */
+function ipCliente(request: Request, direccionSocket: string): string {
+  const esLocal = /^(127\.|::1$|::ffff:127\.)/.test(direccionSocket);
+  if (!esLocal) return direccionSocket;
+
+  const reenviada = request.headers.get('x-forwarded-for');
+  if (!reenviada) return direccionSocket;
+
+  const saltos = reenviada
+    .split(',')
+    .map((x) => x.trim())
+    .filter(Boolean);
+  return saltos[saltos.length - 1] || direccionSocket;
+}
+
 /** Cuenta una petición y dice si esa IP ya ha hecho demasiadas. */
 function demasiadosIntentos(ip: string): boolean {
   const previos = recientes(intentos, ip);
@@ -233,7 +262,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
   const tam = Number(request.headers.get('content-length') ?? 0);
   if (tam > MAX_BYTES) return responder(413, false, 'tamano');
 
-  const ip = clientAddress || 'desconocida';
+  const ip = ipCliente(request, clientAddress || '');
   if (demasiadosIntentos(ip) || demasiadosEnvios(ip)) {
     return responder(429, false, 'frecuencia');
   }

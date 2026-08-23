@@ -1,0 +1,112 @@
+name: Comprobaciones
+
+# Todo cambio se compila y se prueba antes de poder llegar al servidor.
+on:
+  push:
+    branches: ['**']
+  pull_request:
+  # Semanal: las dependencias no cambian, pero los avisos de seguridad sí.
+  schedule:
+    - cron: '0 6 * * 1'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  comprobar:
+    name: Compilar y probar
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Avisos de seguridad
+        # Solo lo alto y lo crítico rompen la compilación: lo moderado se
+        # revisa, pero no debe bloquear un cambio de copy un lunes.
+        run: npm audit --audit-level=high
+
+      - name: Compilar
+        run: npm run build
+
+      - name: Comprobar que el sitemap cubre todas las páginas
+        # El sitemap escrito a mano ya se quedó atrás una vez. Ahora se
+        # genera, pero conviene que nadie lo desmonte sin enterarse.
+        run: |
+          paginas=$(find dist/client -name index.html | wc -l)
+          entradas=$(grep -o '<loc>' dist/client/sitemap-0.xml | wc -l)
+          echo "páginas: $paginas · entradas en el sitemap: $entradas"
+          if [ "$paginas" -ne "$entradas" ]; then
+            echo "::error::El sitemap lista $entradas de $paginas páginas."
+            exit 1
+          fi
+
+      - name: Certificado para el SMTP de pruebas
+        run: |
+          openssl req -x509 -newkey rsa:2048 -nodes -days 1 \
+            -keyout /tmp/clave.pem -out /tmp/cert.pem \
+            -subj '/CN=localhost' -addext 'subjectAltName=DNS:localhost'
+
+      - name: Levantar el SMTP de pruebas
+        run: |
+          node scripts/smtp-prueba.mjs 2526 /tmp/buzon.txt /tmp/cert.pem /tmp/clave.pem &
+          for i in $(seq 1 20); do
+            (echo > /dev/tcp/127.0.0.1/2526) 2>/dev/null && break
+            sleep 0.5
+          done
+
+      - name: Arrancar la web
+        env:
+          SMTP_HOST: localhost
+          SMTP_PORT: '2526'
+          SMTP_USER: reservas@almadraba08.com
+          SMTP_PASS: prueba
+          MAIL_FROM: reservas@almadraba08.com
+          MAIL_TO: hola@almadraba08.com
+          HOST: 127.0.0.1
+          PORT: '4321'
+          # El certificado de pruebas, como CA de confianza. No se desactiva
+          # la verificación: el endpoint debe seguir rechazando un
+          # certificado que no valide, y eso es parte de lo que se prueba.
+          NODE_EXTRA_CA_CERTS: /tmp/cert.pem
+        run: |
+          node dist/server/entry.mjs &
+          for i in $(seq 1 30); do
+            curl -sf -o /dev/null http://127.0.0.1:4321/ && break
+            sleep 1
+          done
+
+      - name: Probar el endpoint de reserva
+        env:
+          BUZON: /tmp/buzon.txt
+        run: ./scripts/probar-reserva.sh http://127.0.0.1:4321 --con-envio
+
+      - name: Instalar el navegador
+        run: npx playwright install --with-deps chromium
+
+      - name: Revisión visual y desbordamiento horizontal
+        run: node scripts/capturas.mjs http://127.0.0.1:4321 capturas
+
+      - name: Guardar las capturas
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: capturas
+          path: capturas/
+          retention-days: 14
+
+      - name: Correo recibido durante las pruebas
+        if: failure()
+        run: cat /tmp/buzon.txt || true

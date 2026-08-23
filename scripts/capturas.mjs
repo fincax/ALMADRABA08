@@ -32,8 +32,10 @@ const PAGINAS = [
 
 mkdirSync(SALIDA, { recursive: true });
 
+// En este entorno el navegador viene preinstalado en una ruta fija; en
+// integración continua lo instala Playwright y se resuelve solo.
 const navegador = await chromium.launch({
-  executablePath: '/opt/pw-browsers/chromium-1194/chrome-linux/chrome',
+  executablePath: process.env.CHROMIUM_PATH || undefined,
 });
 
 let problemas = 0;

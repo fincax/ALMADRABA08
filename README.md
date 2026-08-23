@@ -117,6 +117,8 @@ Lo que trae el endpoint de serie:
 - Cinco envíos por hora e IP, y treinta peticiones. Los dos contadores están
   separados a propósito: si los intentos fallidos gastaran el cupo de envíos,
   a quien se le resistiera el formulario se le cerraría la puerta una hora.
+  La IP real se saca del último valor de `X-Forwarded-For`, el que añade
+  Nginx: sin eso, detrás del proxy todas las visitas compartirían un cupo.
 - TLS obligatorio: en el puerto 587 se niega a enviar si el servidor no
   ofrece STARTTLS, en lugar de mandar las credenciales en claro.
 - Protección CSRF de Astro, que rechaza los POST venidos de otro origen.
@@ -151,11 +153,19 @@ que actualizar el apartado «Quién más los ve» en `src/i18n/legal.ts`.
 
 ## Comprobaciones
 
+Cada push las pasa solas en GitHub Actions (`.github/workflows/ci.yml`):
+auditoría de seguridad, compilación, cobertura del sitemap, las pruebas del
+endpoint contra un SMTP de mentira y la revisión visual. A mano:
+
 ```sh
-npm run probar                      # 13 pruebas del endpoint (no envían correo)
+npm run probar                      # 15 pruebas del endpoint (no envían correo)
 ./scripts/probar-reserva.sh https://almadraba08.com --con-envio
 node scripts/capturas.mjs           # capturas en móvil, tablet y escritorio
 ```
+
+Con `--con-envio` son 21 e incluyen el envío real, las cabeceras del correo
+y el limitador. Cada ejecución usa una IP distinta, así que se puede repetir
+sin agotar el cupo.
 
 `scripts/capturas.mjs` recorre las cuatro páginas en tres tamaños y avisa si
 alguna se desborda horizontalmente — el fallo responsive más fácil de pasar
