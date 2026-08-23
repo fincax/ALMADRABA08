@@ -8,3 +8,6 @@ dist/
 
 # Capturas de revisión
 capturas/
+
+# Vista previa generada
+vista-previa.html

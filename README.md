@@ -161,11 +161,20 @@ endpoint contra un SMTP de mentira y la revisión visual. A mano:
 npm run probar                      # 15 pruebas del endpoint (no envían correo)
 ./scripts/probar-reserva.sh https://almadraba08.com --con-envio
 node scripts/capturas.mjs           # capturas en móvil, tablet y escritorio
+npm run vista-previa                # portada en un solo HTML autocontenido
 ```
 
 Con `--con-envio` son 21 e incluyen el envío real, las cabeceras del correo
 y el limitador. Cada ejecución usa una IP distinta, así que se puede repetir
 sin agotar el cupo.
+
+`npm run vista-previa` empaqueta la portada en un único archivo HTML con el
+CSS y las tipografías empotrados: se abre con doble clic o se sube a
+cualquier sitio, sin servidor. Sirve para enseñar la web antes de
+desplegarla. El JavaScript es el mismo que el de producción; lo único
+añadido es una capa que suple lo que allí no existe — el envío del
+formulario, que valida de verdad pero no manda correo, y las otras páginas
+del sitio, que no viajan en el archivo.
 
 `scripts/capturas.mjs` recorre las cuatro páginas en tres tamaños y avisa si
 alguna se desborda horizontalmente — el fallo responsive más fácil de pasar

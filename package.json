@@ -8,7 +8,8 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "probar": "./scripts/probar-reserva.sh"
+    "probar": "./scripts/probar-reserva.sh",
+    "vista-previa": "node scripts/vista-previa.mjs"
   },
   "dependencies": {
     "@astrojs/node": "^11.1.4",
