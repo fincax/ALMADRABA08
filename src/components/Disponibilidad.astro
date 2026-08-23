@@ -18,6 +18,9 @@ interface Period {
   end: string;
   label: { es: string; en: string };
   status: Status;
+  /** Qué ocurre esa semana en Zahara. Opcional: la mayoría no tiene nada
+   *  reseñable, y anotarlo todo diluiría lo que sí importa. */
+  event?: { es: string; en: string };
 }
 // Importado, no leído de disco: la ruta del módulo cambia según cómo
 // empaquete Astro, pero la importación se resuelve siempre desde la raíz
@@ -78,6 +81,7 @@ const upcoming = data.periods.filter((p) => p.end >= today);
                 <div class="row-dates">
                   {fmt(p.start)} — {fmt(p.end)}
                 </div>
+                {p.event && <div class="row-event">{p.event[lang]}</div>}
               </div>
               <div class="row-side">
                 <span class={`status s-${p.status}`}>{t.disponibilidad.status[p.status]}</span>
@@ -150,6 +154,16 @@ const upcoming = data.periods.filter((p) => p.end >= today);
     letter-spacing: 0.2em;
     text-transform: uppercase;
   }
+  /* El evento acompaña a la fecha sin competir con el nombre de la semana:
+     mismo cuerpo que las fechas, pero en el turquesa claro para que se
+     distinga de un dato más. */
+  .dispo .row-event {
+    margin-top: 5px;
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: var(--sea-light);
+    max-width: 44ch;
+  }
   .dispo .s-libre { color: var(--sea-light); }
   .dispo .s-reservada { color: rgba(191, 212, 214, 0.45); }
   .dispo .s-consultar { color: var(--on-dark-soft); }
@@ -182,6 +196,7 @@ const upcoming = data.periods.filter((p) => p.end >= today);
     end: string;
     label: { es: string; en: string };
     status: Status;
+    event?: { es: string; en: string };
   }
 
   const list = document.getElementById('availability-list');
@@ -238,6 +253,15 @@ const upcoming = data.periods.filter((p) => p.end >= today);
       dates.className = 'row-dates';
       dates.textContent = `${fmt(p.start)} — ${fmt(p.end)}`;
       main.append(label, dates);
+      // textContent, no innerHTML: el JSON se edita a mano en el servidor y
+      // no debe poder inyectar marcado en la página.
+      const ev = p.event?.[lang] ?? p.event?.es;
+      if (ev) {
+        const e = document.createElement('div');
+        e.className = 'row-event';
+        e.textContent = ev;
+        main.appendChild(e);
+      }
 
       const side = document.createElement('div');
       side.className = 'row-side';

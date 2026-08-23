@@ -5,15 +5,117 @@
     "en": "Indicative availability — we confirm it personally when we receive your request."
   },
   "periods": [
-    { "id": "pte-dic-2026", "start": "2026-12-04", "end": "2026-12-08", "label": { "es": "Puente de diciembre", "en": "December long weekend" }, "status": "consultar" },
-    { "id": "ssanta-2027", "start": "2027-03-27", "end": "2027-04-03", "label": { "es": "Semana Santa", "en": "Easter week" }, "status": "consultar" },
-    { "id": "jul-2027-s1", "start": "2027-07-03", "end": "2027-07-10", "label": { "es": "Julio · semana 1", "en": "July · week 1" }, "status": "libre" },
-    { "id": "jul-2027-s2", "start": "2027-07-10", "end": "2027-07-17", "label": { "es": "Julio · semana 2", "en": "July · week 2" }, "status": "libre" },
-    { "id": "jul-2027-s3", "start": "2027-07-17", "end": "2027-07-24", "label": { "es": "Julio · semana 3", "en": "July · week 3" }, "status": "reservada" },
-    { "id": "jul-2027-s4", "start": "2027-07-24", "end": "2027-07-31", "label": { "es": "Julio · semana 4", "en": "July · week 4" }, "status": "libre" },
-    { "id": "ago-2027-s1", "start": "2027-07-31", "end": "2027-08-07", "label": { "es": "Agosto · semana 1", "en": "August · week 1" }, "status": "libre" },
-    { "id": "ago-2027-s2", "start": "2027-08-07", "end": "2027-08-14", "label": { "es": "Agosto · semana 2", "en": "August · week 2" }, "status": "reservada" },
-    { "id": "ago-2027-s3", "start": "2027-08-14", "end": "2027-08-21", "label": { "es": "Agosto · semana 3", "en": "August · week 3" }, "status": "libre" },
-    { "id": "ago-2027-s4", "start": "2027-08-21", "end": "2027-08-28", "label": { "es": "Agosto · semana 4", "en": "August · week 4" }, "status": "consultar" }
+    {
+      "id": "pte-dic-2026",
+      "start": "2026-12-04",
+      "end": "2026-12-08",
+      "label": {
+        "es": "Puente de diciembre",
+        "en": "December long weekend"
+      },
+      "status": "consultar"
+    },
+    {
+      "id": "ssanta-2027",
+      "start": "2027-03-20",
+      "end": "2027-03-28",
+      "label": {
+        "es": "Semana Santa",
+        "en": "Easter week"
+      },
+      "status": "consultar",
+      "event": {
+        "es": "Domingo de Resurrección, 28 de marzo",
+        "en": "Easter Sunday, 28 March"
+      }
+    },
+    {
+      "id": "jul-2027-s1",
+      "start": "2027-07-03",
+      "end": "2027-07-10",
+      "label": {
+        "es": "Julio · semana 1",
+        "en": "July · week 1"
+      },
+      "status": "libre"
+    },
+    {
+      "id": "jul-2027-s2",
+      "start": "2027-07-10",
+      "end": "2027-07-17",
+      "label": {
+        "es": "Julio · semana 2",
+        "en": "July · week 2"
+      },
+      "status": "libre",
+      "event": {
+        "es": "Fiestas de la Virgen del Carmen · procesión marítima el 16",
+        "en": "Virgen del Carmen festival · sea procession on the 16th"
+      }
+    },
+    {
+      "id": "jul-2027-s3",
+      "start": "2027-07-17",
+      "end": "2027-07-24",
+      "label": {
+        "es": "Julio · semana 3",
+        "en": "July · week 3"
+      },
+      "status": "reservada"
+    },
+    {
+      "id": "jul-2027-s4",
+      "start": "2027-07-24",
+      "end": "2027-07-31",
+      "label": {
+        "es": "Julio · semana 4",
+        "en": "July · week 4"
+      },
+      "status": "libre"
+    },
+    {
+      "id": "ago-2027-s1",
+      "start": "2027-07-31",
+      "end": "2027-08-07",
+      "label": {
+        "es": "Agosto · semana 1",
+        "en": "August · week 1"
+      },
+      "status": "consultar",
+      "event": {
+        "es": "Eclipse solar total el 2 de agosto · más de cuatro minutos de totalidad sobre Zahara",
+        "en": "Total solar eclipse on 2 August · over four minutes of totality over Zahara"
+      }
+    },
+    {
+      "id": "ago-2027-s2",
+      "start": "2027-08-07",
+      "end": "2027-08-14",
+      "label": {
+        "es": "Agosto · semana 2",
+        "en": "August · week 2"
+      },
+      "status": "reservada"
+    },
+    {
+      "id": "ago-2027-s3",
+      "start": "2027-08-14",
+      "end": "2027-08-21",
+      "label": {
+        "es": "Agosto · semana 3",
+        "en": "August · week 3"
+      },
+      "status": "libre"
+    },
+    {
+      "id": "ago-2027-s4",
+      "start": "2027-08-21",
+      "end": "2027-08-28",
+      "label": {
+        "es": "Agosto · semana 4",
+        "en": "August · week 4"
+      },
+      "status": "consultar"
+    }
   ]
 }
