@@ -184,20 +184,8 @@ systemctl list-timers | grep certbot
 
 ## 8. Comprobar que el formulario envía
 
-Desde el propio servidor:
-
-```sh
-curl -s -X POST https://almadraba08.com/api/reserva \
-  -H 'Accept: application/json' \
-  -H 'Origin: https://almadraba08.com' \
-  -F 'nombre=Prueba' -F 'email=tu@correo.com' \
-  -F 'llegada=2027-07-03' -F 'salida=2027-07-10' \
-  -F 'personas=2' -F 'consentimiento=on' -F '_lang=es' \
-  -F "_ts=$(( ($(date +%s) - 30) * 1000 ))"
-```
-
-O, mejor, pasando la batería completa —trece pruebas de validación,
-seguridad y antibots que **no** envían ningún correo:
+Desde el propio servidor, pasando la batería completa — trece pruebas de
+validación, seguridad y antibots que **no** envían ningún correo:
 
 ```sh
 ./scripts/probar-reserva.sh https://almadraba08.com
