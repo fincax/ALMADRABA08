@@ -2,8 +2,12 @@
  * Aviso legal y política de privacidad.
  *
  * Redactado a partir de la LSSI-CE (art. 10) y del RGPD (art. 13) para el
- * caso concreto de esta web: una página estática, sin cookies, sin
- * analítica y con un único formulario de solicitud de reserva.
+ * caso concreto de esta web: páginas estáticas, sin cookies, sin analítica
+ * y con un único formulario de solicitud de reserva, procesado en servidor
+ * propio y enviado por el SMTP del dominio. Sin terceros.
+ *
+ * ⚠️ Si algún día cambia el alojamiento o el proveedor de correo, hay que
+ * actualizar el apartado «Quién más los ve» de esta misma página.
  *
  * ⚠️ No es asesoramiento jurídico. Antes de publicar conviene que lo revise
  * un profesional, sobre todo el apartado de conservación de datos y el
@@ -54,7 +58,7 @@ export const legal = {
       kicker: 'Política de privacidad',
       headline: 'Qué hacemos con tus datos.',
       intro:
-        'Esta web no instala cookies, no usa analítica y no carga recursos de terceros: las tipografías se sirven desde el propio dominio. Si te limitas a navegar, no recogemos ningún dato tuyo. Lo único que trata datos personales es el formulario de solicitud de reserva.',
+        'Esta web no instala cookies, no usa analítica y no carga recursos de terceros: las tipografías se sirven desde el propio dominio. Si te limitas a navegar, no recogemos ningún dato tuyo. Lo único que trata datos personales es el formulario de solicitud de reserva, y lo hace en nuestro propio servidor: tu mensaje no pasa por ningún servicio ajeno.',
       rows: [
         {
           k: 'Responsable',
@@ -74,7 +78,7 @@ export const legal = {
         },
         {
           k: 'Quién más los ve',
-          v: 'El formulario se envía a través de Formspree (Formspree Inc., Estados Unidos), que actúa como encargado del tratamiento y nos hace llegar el mensaje por correo. Eso implica una transferencia internacional de datos, amparada en las cláusulas contractuales tipo de la Comisión Europea. Salvo esto, no cedemos tus datos a nadie, excepto obligación legal.',
+          v: 'Nadie. El formulario lo procesa nuestro propio servidor, alojado en Clouding.io (España), y el correo sale por el buzón del dominio, en IONOS (Alemania). Ambos son proveedores establecidos en la Unión Europea y actúan como encargados del tratamiento; no hay transferencias internacionales de datos ni intermediarios que lean tu mensaje. No cedemos tus datos a nadie, salvo obligación legal.',
         },
         {
           k: 'Cuánto tiempo',
@@ -130,7 +134,7 @@ export const legal = {
       kicker: 'Privacy policy',
       headline: 'What we do with your data.',
       intro:
-        'This site sets no cookies, uses no analytics and loads no third-party resources: the typefaces are served from our own domain. If you only browse, we collect nothing about you. The only thing that processes personal data is the booking request form.',
+        'This site sets no cookies, uses no analytics and loads no third-party resources: the typefaces are served from our own domain. If you only browse, we collect nothing about you. The only thing that processes personal data is the booking request form, and it runs on our own server: your message passes through no third-party service.',
       rows: [
         { k: 'Controller', v: 'The owner identified in the legal notice on this page.' },
         {
@@ -147,7 +151,7 @@ export const legal = {
         },
         {
           k: 'Who else sees them',
-          v: 'The form is delivered through Formspree (Formspree Inc., United States), acting as our processor and forwarding the message to us by email. This involves an international transfer of data, covered by the European Commission’s standard contractual clauses. Beyond that we share your data with no one, except where legally required.',
+          v: 'No one. The form is handled by our own server, hosted at Clouding.io (Spain), and the email is sent through the domain mailbox at IONOS (Germany). Both providers are established in the European Union and act as our processors; there are no international data transfers and no intermediary reads your message. We share your data with no one, except where legally required.',
         },
         {
           k: 'How long',

@@ -1,5 +1,5 @@
 ---
-import fs from 'node:fs';
+import availability from '../../public/availability.json';
 import type { Lang, Dict } from '../i18n/ui';
 
 interface Props { lang: Lang; t: Dict }
@@ -19,9 +19,16 @@ interface Period {
   label: { es: string; en: string };
   status: Status;
 }
-const data = JSON.parse(
-  fs.readFileSync(new URL('../../public/availability.json', import.meta.url), 'utf8')
-) as { updated: string; note: { es: string; en: string }; periods: Period[] };
+// Importado, no leído de disco: la ruta del módulo cambia según cómo
+// empaquete Astro, pero la importación se resuelve siempre desde la raíz
+// del proyecto. El navegador vuelve a pedir /availability.json al cargar,
+// así que editar el archivo en el servidor sigue surtiendo efecto sin
+// reconstruir.
+const data = availability as {
+  updated: string;
+  note: { es: string; en: string };
+  periods: Period[];
+};
 
 const fmt = (iso: string) =>
   new Date(iso + 'T12:00:00').toLocaleDateString(lang === 'es' ? 'es-ES' : 'en-GB', {

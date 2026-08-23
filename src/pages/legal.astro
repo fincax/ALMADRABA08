@@ -23,10 +23,11 @@ if (faltan.length) {
       `     La web NO debe publicarse hasta rellenarlos.\n`,
   );
 }
-if (!site.formEndpoint) {
+if (!process.env.SMTP_HOST || !process.env.MAIL_TO) {
   console.warn(
-    `  ⚠️  ALMADRABA 8 — formulario sin endpoint.\n` +
-      `     Pega la URL de Formspree en src/data/site.ts → formEndpoint.\n`,
+    `  ⚠️  ALMADRABA 8 — envío de correo sin configurar.\n` +
+      `     Faltan variables SMTP en el entorno del servidor (ver .env.example).\n` +
+      `     El formulario avisará al visitante en lugar de enviar.\n`,
   );
 }
 ---

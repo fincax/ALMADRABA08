@@ -96,17 +96,32 @@ menú serían demasiadas.
 Todo lo imprescindible está en `src/data/site.ts`. La compilación avisa por
 consola mientras falte cualquiera de estas dos cosas.
 
-### 1. Formulario (Formspree)
+### 1. Formulario y correo
 
-1. Crear una cuenta en [formspree.io](https://formspree.io) y un formulario nuevo.
-2. Copiar su endpoint — tiene la forma `https://formspree.io/f/XXXXXXXX`.
-3. Pegarlo en `site.formEndpoint`.
+El formulario **no usa ningún servicio externo**: envía a `/api/reserva`, un
+endpoint propio que manda el correo por el SMTP del buzón de IONOS. Nadie más
+llega a ver las solicitudes.
 
-El formulario ya está preparado para Formspree: envía `FormData` con
-`Accept: application/json`, usa `_gotcha` como honeypot antispam (la
-convención de Formspree) y `_subject` para el asunto del correo. No hay
-captcha visible. Mientras el endpoint esté vacío, el formulario avisa al
-visitante en lugar de fingir que ha enviado algo.
+Las credenciales van en variables de entorno del servidor, nunca en el
+repositorio: copiar `.env.example` y rellenar `SMTP_PASS`. Toda la puesta en
+marcha —Nginx, systemd, certificado, DNS— está en
+[`docs/despliegue.md`](docs/despliegue.md).
+
+Lo que trae el endpoint de serie:
+
+- Validación en servidor de todos los campos, además de la del navegador.
+- Rechazo de saltos de línea en nombre y correo, que serían inyección de
+  cabeceras SMTP.
+- Honeypot y trampa temporal: un envío instantáneo es un bot. A los bots se
+  les responde «enviado» para que no reintenten, pero no se manda nada.
+- Cinco envíos por hora e IP, y treinta peticiones. Los dos contadores están
+  separados a propósito: si los intentos fallidos gastaran el cupo de envíos,
+  a quien se le resistiera el formulario se le cerraría la puerta una hora.
+- TLS obligatorio: en el puerto 587 se niega a enviar si el servidor no
+  ofrece STARTTLS, en lugar de mandar las credenciales en claro.
+- Protección CSRF de Astro, que rechaza los POST venidos de otro origen.
+- Funciona sin JavaScript: el envío normal redirige a la portada del idioma
+  correcto con el aviso puesto.
 
 ### 2. Datos del titular (obligatorio por ley)
 
@@ -123,9 +138,10 @@ necesita banner de cookies**. Lo único que trata datos personales es el
 formulario, que lleva casilla de consentimiento obligatoria enlazada a la
 política de privacidad.
 
-Como el envío pasa por Formspree (Estados Unidos), la política declara la
-transferencia internacional. Si cambiáis de servicio, hay que actualizar ese
-apartado en `src/i18n/legal.ts`.
+Como el formulario se procesa en servidor propio y el correo sale por IONOS
+—ambos en la Unión Europea—, **no hay transferencias internacionales** que
+declarar. Si algún día cambia el alojamiento o el proveedor de correo, hay
+que actualizar el apartado «Quién más los ve» en `src/i18n/legal.ts`.
 
 > Los textos legales están redactados a partir de la LSSI-CE (art. 10) y del
 > RGPD (art. 13) para este caso concreto, pero **no son asesoramiento

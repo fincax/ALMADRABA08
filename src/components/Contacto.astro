@@ -23,16 +23,18 @@ const legalHref = lang === 'es' ? '/legal/#privacidad' : '/en/legal/#privacidad'
     class="form"
     id="booking-form"
     method="post"
-    action={site.formEndpoint || undefined}
+    action="/api/reserva"
     novalidate={false}
-    data-endpoint={site.formEndpoint}
     data-msg-sending={f.sending}
     data-msg-success={f.success}
     data-msg-error={f.error}
     data-msg-unconfigured={f.unconfigured}
   >
     <input type="hidden" name="_lang" value={lang} />
-    <input type="hidden" name="_subject" value="Almadraba 8 · solicitud de reserva" />
+    <!-- Marca de tiempo de carga: el servidor descarta los envíos
+         instantáneos, que solo puede hacer un bot. La rellena el script
+         al cargar, no la compilación: el HTML se sirve cacheado. -->
+    <input type="hidden" name="_ts" value="" />
     <!-- Honeypot antispam: oculto para personas, tentador para bots -->
     <p class="hp" aria-hidden="true">
       <label>
@@ -182,7 +184,11 @@ const legalHref = lang === 'es' ? '/legal/#privacidad' : '/en/legal/#privacidad'
     const status = form.querySelector<HTMLParagraphElement>('.form-status')!;
     const submit = form.querySelector<HTMLButtonElement>('.submit')!;
     const submitLabel = submit.textContent ?? '';
-    const endpoint = form.dataset.endpoint ?? '';
+    const endpoint = '/api/reserva';
+
+    // Marca de tiempo de carga para la trampa temporal del servidor.
+    const ts = form.querySelector<HTMLInputElement>('input[name="_ts"]');
+    if (ts) ts.value = String(Date.now());
 
     const show = (msg: string, kind: 'ok' | 'err') => {
       status.textContent = msg;
@@ -204,6 +210,17 @@ const legalHref = lang === 'es' ? '/legal/#privacidad' : '/en/legal/#privacidad'
       }
     });
 
+    // Vuelta del envío sin JavaScript: el endpoint redirige aquí con un
+    // parámetro, y lo limpiamos de la barra de direcciones al mostrarlo.
+    const params = new URLSearchParams(location.search);
+    if (params.has('enviado')) {
+      show(form.dataset.msgSuccess ?? '', 'ok');
+      history.replaceState(null, '', location.pathname + '#contacto');
+    } else if (params.has('error')) {
+      show(form.dataset.msgError ?? '', 'err');
+      history.replaceState(null, '', location.pathname + '#contacto');
+    }
+
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       if (!form.reportValidity()) return;
@@ -211,10 +228,6 @@ const legalHref = lang === 'es' ? '/legal/#privacidad' : '/en/legal/#privacidad'
       const gotcha = form.querySelector<HTMLInputElement>('input[name="_gotcha"]');
       if (gotcha && gotcha.value) {
         show(form.dataset.msgSuccess ?? '', 'ok');
-        return;
-      }
-      if (!endpoint) {
-        show(form.dataset.msgUnconfigured ?? '', 'err');
         return;
       }
       submit.disabled = true;
@@ -226,9 +239,22 @@ const legalHref = lang === 'es' ? '/legal/#privacidad' : '/en/legal/#privacidad'
           body: new FormData(form),
           headers: { Accept: 'application/json' },
         });
-        if (!res.ok) throw new Error(String(res.status));
+        const cuerpo = await res.json().catch(() => null);
+        if (!res.ok || !cuerpo?.ok) {
+          // El servidor distingue «aún no configurado» de un fallo de envío:
+          // conviene que el visitante sepa cuál de los dos le ha tocado.
+          const sinConfigurar = res.status === 503 || cuerpo?.motivo === 'sin-configurar';
+          show(
+            sinConfigurar
+              ? (form.dataset.msgUnconfigured ?? '')
+              : (form.dataset.msgError ?? ''),
+            'err',
+          );
+          return;
+        }
         show(form.dataset.msgSuccess ?? '', 'ok');
         form.reset();
+        if (ts) ts.value = String(Date.now());
       } catch {
         show(form.dataset.msgError ?? '', 'err');
       } finally {

@@ -7,13 +7,11 @@ export const site = {
   url: 'https://almadraba08.com',
 
   /**
-   * Endpoint del formulario de solicitud de reserva.
-   * Acepta cualquier servicio que reciba un POST de FormData y responda
-   * JSON (Formspree, Basin, Getform, un endpoint propio…).
-   * Ejemplo Formspree: 'https://formspree.io/f/XXXXXXXX'
-   * Mientras esté vacío, el formulario muestra un aviso al enviar.
+   * El formulario envía a nuestro propio endpoint, /api/reserva, que manda
+   * el correo por SMTP. No hay servicio externo que configurar aquí: las
+   * credenciales van en variables de entorno del servidor (ver .env.example).
    */
-  formEndpoint: '',
+  formEndpoint: '/api/reserva',
 
   /** Perfil de Instagram (URL completa). Vacío = el enlace del pie apunta a '#'. */
   instagram: '',
