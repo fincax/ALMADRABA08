@@ -29,11 +29,12 @@ const { t } = Astro.props;
   .scrim {
     position: absolute;
     inset: 0;
+    /* Mar abajo, cielo arriba: el degradado ya no es petróleo plano */
     background: linear-gradient(
       to top,
-      rgba(14, 78, 86, 0.62),
-      rgba(14, 78, 86, 0.1) 55%,
-      rgba(14, 78, 86, 0.24)
+      rgba(17, 95, 107, 0.66),
+      rgba(58, 167, 159, 0.14) 52%,
+      rgba(127, 180, 212, 0.26)
     );
     pointer-events: none;
   }

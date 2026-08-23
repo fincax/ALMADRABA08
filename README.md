@@ -56,4 +56,6 @@ design/
 
 ## Identidad
 
-Resumen operativo en `CLAUDE.md`; manual completo en `design/Almadraba 8 - Identidad.dc.html` y handoff en `design/README-handoff.md`. Reglas clave: arena de fondo, turquesa `#12706C` como tinta única de marca, azul cielo `#7FB4D4` solo de acompañamiento; wordmark Jost 200 en caja alta con su tracking intacto y `white-space: nowrap`; sin border-radius, sin sombras decorativas, sin iconografía de playa; la marca se escribe siempre «Almadraba 8».
+La paleta de la web es la revisión «mar, cielo y arena» documentada en `CLAUDE.md`, con todos los pares de texto verificados a WCAG AA.
+
+Resumen operativo en `CLAUDE.md`; manual completo en `design/Almadraba 8 - Identidad.dc.html` y handoff en `design/README-handoff.md`. Reglas clave: arena de fondo, mar profundo `#15747F` como tinta única de marca, con el turquesa mar `#3AA79F` y el azul cielo `#7FB4D4` como acentos de superficie; wordmark Jost 200 en caja alta con su tracking intacto y `white-space: nowrap`; sin border-radius, sin sombras decorativas, sin iconografía de playa; la marca se escribe siempre «Almadraba 8».

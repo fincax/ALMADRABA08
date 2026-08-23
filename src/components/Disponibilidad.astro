@@ -111,7 +111,7 @@ const upcoming = data.periods.filter((p) => p.end >= today);
     gap: var(--col-gap);
   }
   .dispo .text { display: flex; flex-direction: column; gap: 22px; }
-  .dispo .kicker.sky { color: var(--sky); }
+  .dispo .kicker.sky { color: var(--sky-on-dark); }
   .dispo .headline.light { color: var(--on-dark); font-size: clamp(28px, 3.2vw, 38px); }
   .dispo .copy.soft { color: var(--on-dark-soft); }
   .dispo .note {
@@ -143,7 +143,7 @@ const upcoming = data.periods.filter((p) => p.end >= today);
     letter-spacing: 0.2em;
     text-transform: uppercase;
   }
-  .dispo .s-libre { color: var(--sky); }
+  .dispo .s-libre { color: var(--sea-light); }
   .dispo .s-reservada { color: rgba(191, 212, 214, 0.45); }
   .dispo .s-consultar { color: var(--on-dark-soft); }
   .dispo .s-resto { color: rgba(191, 212, 214, 0.55); }
@@ -152,12 +152,12 @@ const upcoming = data.periods.filter((p) => p.end >= today);
     font-weight: 400;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: var(--night);
+    color: var(--abyss);
     background: var(--sky);
     padding: 7px 14px;
     transition: background var(--transition), color var(--transition);
   }
-  .dispo .request:hover { background: var(--on-dark); color: var(--night); }
+  .dispo .request:hover { background: var(--sea-light); color: var(--abyss); }
   @media (max-width: 899px) {
     .dispo .inner { grid-template-columns: minmax(0, 1fr); gap: 40px; }
     .dispo .row { flex-wrap: wrap; align-items: center; }

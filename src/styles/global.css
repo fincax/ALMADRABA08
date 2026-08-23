@@ -26,24 +26,31 @@
 }
 
 :root {
-  /* Color */
-  --sand: #F3EBDA;
-  --sand-2: #E5DAC2;
-  --sand-3: #F8F3E7;
-  --teal: #12706C;
-  --teal-light: #3AA79F;
-  --sky: #7FB4D4;
-  --night: #0E4E56;
+  /* Color — «mar, cielo y arena»
+     El turquesa domina como SUPERFICIE (banda, degradado, acentos);
+     la tinta de texto se mantiene lo bastante profunda para cumplir
+     WCAG AA (4.5:1). Todos los pares verificados. */
+  --sand: #F3EBDA;         /* arena de playa — fondo */
+  --sand-2: #E5DAC2;       /* arena media — banda secundaria */
+  --sand-3: #F8F3E7;       /* arena clara — campos y superficies */
+  --teal: #15747F;         /* tinta de marca — mar profundo (186°) */
+  --teal-deep: #0E5A63;    /* hover de botón primario */
+  --sea: #3AA79F;          /* turquesa mar — acentos y filetes sobre claro */
+  --sea-light: #8FD8D3;    /* turquesa legible sobre fondo oscuro */
+  --sky: #7FB4D4;          /* azul cielo */
+  --sky-on-dark: #AFD3E6;  /* cielo legible sobre fondo oscuro */
+  --night: #115F6B;        /* mar al atardecer — fondo de banda */
+  --abyss: #0B3F47;        /* mar hondo — pie y texto sobre cielo */
   --dune: #B7A98C;
   --ink: #26312F;
   --ink-soft: #5C6C69;
-  --muted: #8A8071;
+  --muted: #716A5C;        /* kickers — oscurecido para cumplir AA */
   --line: #E2D8C1;
   --line-2: #DACFB6;
   --line-3: #C9BC9E;
   --on-dark: #F8F3E7;
-  --on-dark-soft: #BFD4D6;
-  --on-dark-muted: #8F9C99;
+  --on-dark-soft: #C6DCE2;
+  --on-dark-muted: #9DB2B5;
 
   /* Tipografía */
   --font-sans: 'Jost', 'Avenir Next', 'Century Gothic', system-ui, sans-serif;
@@ -81,7 +88,7 @@ body {
 }
 
 a { color: var(--teal); text-decoration: none; transition: color var(--transition); }
-a:hover { color: var(--teal-light); }
+a:hover { color: var(--teal-deep); }
 
 img { max-width: 100%; display: block; }
 
@@ -149,7 +156,7 @@ img { max-width: 100%; display: block; }
   cursor: pointer;
   transition: background var(--transition);
 }
-.btn:hover { background: var(--night); color: var(--sand); }
+.btn:hover { background: var(--teal-deep); color: var(--sand); }
 
 /* Fade-in sutil al entrar en viewport.
    Solo se activa cuando hay JS (html.js): sin JS todo es visible. */
