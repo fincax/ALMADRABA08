@@ -40,7 +40,7 @@ if (!process.env.SMTP_HOST || !process.env.MAIL_TO) {
   paths={{ es: '/legal/', en: '/en/legal/' }}
 >
   <Nav lang={lang} t={t} />
-  <main>
+  <main id="contenido">
     <LegalPage lang={lang} t={t} l={l} updated={site.legalUpdated} />
   </main>
   <Footer lang={lang} t={t} />

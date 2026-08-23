@@ -1,0 +1,61 @@
+---
+/**
+ * Página 404. Astro la genera como 404.html; Nginx la sirve con
+ * `error_page 404 /404.html` (ver docs/despliegue.md).
+ *
+ * En español, que es el idioma por defecto, pero con salida a las dos
+ * portadas: quien aterrice aquí desde /en/ debe poder volver a lo suyo.
+ */
+import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import { ui } from '../i18n/ui';
+
+const lang = 'es' as const;
+const t = ui[lang];
+const nf = t.notFound;
+---
+
+<Base lang={lang} t={t} title={nf.title} description={nf.p}>
+  <Nav lang={lang} t={t} />
+  <main id="contenido">
+    <section class="nf container">
+      <p class="kicker">{nf.kicker}</p>
+      <h1 class="headline">{nf.headline}</h1>
+      <p class="copy">{nf.p}</p>
+      <div class="salidas">
+        <a class="btn" href="/">{nf.home}</a>
+        <a class="alt" href="/en/" lang="en">{ui.en.notFound.home}</a>
+      </div>
+    </section>
+  </main>
+  <Footer lang={lang} t={t} />
+</Base>
+
+<style>
+  .nf {
+    padding-top: 140px;
+    padding-bottom: var(--section-y);
+    max-width: 620px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .headline {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: clamp(30px, 4vw, 42px);
+    line-height: 1.2;
+    color: var(--ink);
+  }
+  .copy { font-size: 16px; line-height: 1.75; color: var(--ink-soft); }
+  .salidas { display: flex; align-items: center; gap: 26px; margin-top: 14px; flex-wrap: wrap; }
+  .btn { padding: 15px 28px; }
+  .alt {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .alt:hover { color: var(--teal-deep); }
+</style>

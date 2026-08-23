@@ -5,3 +5,6 @@ dist/
 
 # Credenciales del servidor — nunca en el repositorio
 .env
+
+# Capturas de revisión
+capturas/

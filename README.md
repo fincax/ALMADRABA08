@@ -149,6 +149,21 @@ que actualizar el apartado «Quién más los ve» en `src/i18n/legal.ts`.
 > sobre todo los plazos de conservación y el régimen fiscal del alquiler.
 
 
+## Comprobaciones
+
+```sh
+npm run probar                      # 13 pruebas del endpoint (no envían correo)
+./scripts/probar-reserva.sh https://almadraba08.com --con-envio
+node scripts/capturas.mjs           # capturas en móvil, tablet y escritorio
+```
+
+`scripts/capturas.mjs` recorre las cuatro páginas en tres tamaños y avisa si
+alguna se desborda horizontalmente — el fallo responsive más fácil de pasar
+por alto, porque solo se nota al deslizar de lado. Usa un viewport real, no
+una ventana gigante: el hero se mide en `vh` y una ventana de 12 000 px lo
+haría ocupar 9 360.
+
+
 ## Identidad
 
 La paleta de la web es la revisión «mar, cielo y arena» documentada en `CLAUDE.md`, con todos los pares de texto verificados a WCAG AA.

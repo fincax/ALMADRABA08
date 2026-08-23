@@ -46,8 +46,11 @@ const legalHref = lang === 'es' ? '/legal/' : '/en/legal/';
     text-transform: uppercase;
     color: var(--on-dark-muted);
   }
-  .links { display: flex; gap: 28px; align-items: baseline; }
+  .links { display: flex; flex-wrap: wrap; gap: 12px 28px; align-items: baseline; }
   .links a, .domain {
+    /* Cada enlace entero o a la línea siguiente: «Aviso legal» partido en
+       dos se lee como dos enlaces distintos. */
+    white-space: nowrap;
     font-size: 11px;
     font-weight: 400;
     letter-spacing: 0.18em;

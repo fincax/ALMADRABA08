@@ -144,6 +144,14 @@ export const ui = {
       instagram: 'Instagram',
       legal: 'Aviso legal',
     },
+    notFound: {
+      title: 'Página no encontrada · Almadraba 8',
+      kicker: 'Error 404',
+      headline: 'Esta página no existe.',
+      p: 'Puede que el enlace esté mal escrito o que la página ya no esté. Desde la portada llegas a todo.',
+      home: 'Ir a la portada',
+    },
+    skip: 'Saltar al contenido',
   },
 
   en: {
@@ -285,6 +293,14 @@ export const ui = {
       instagram: 'Instagram',
       legal: 'Legal notice',
     },
+    notFound: {
+      title: 'Page not found · Almadraba 8',
+      kicker: 'Error 404',
+      headline: 'This page does not exist.',
+      p: 'The link may be mistyped, or the page may be gone. Everything is reachable from the homepage.',
+      home: 'Go to the homepage',
+    },
+    skip: 'Skip to content',
   },
 } as const;
 

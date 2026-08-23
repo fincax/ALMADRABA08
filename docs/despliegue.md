@@ -153,6 +153,12 @@ server {
     location / {
         try_files $uri $uri/index.html $uri.html =404;
     }
+
+    # Página 404 propia, con la marca y salida a las dos portadas.
+    error_page 404 /404.html;
+    location = /404.html {
+        internal;
+    }
 }
 ```
 
@@ -184,6 +190,27 @@ Desde el propio servidor:
 curl -s -X POST https://almadraba08.com/api/reserva \
   -H 'Accept: application/json' \
   -H 'Origin: https://almadraba08.com' \
+  -F 'nombre=Prueba' -F 'email=tu@correo.com' \
+  -F 'llegada=2027-07-03' -F 'salida=2027-07-10' \
+  -F 'personas=2' -F 'consentimiento=on' -F '_lang=es' \
+  -F "_ts=$(( ($(date +%s) - 30) * 1000 ))"
+```
+
+O, mejor, pasando la batería completa —trece pruebas de validación,
+seguridad y antibots que **no** envían ningún correo:
+
+```sh
+./scripts/probar-reserva.sh https://almadraba08.com
+```
+
+Añadiendo `--con-envio` manda además una solicitud real, para comprobar que
+el correo llega de verdad. Conviene pasarlo después de cada despliegue.
+
+Para una comprobación suelta a mano:
+
+```sh
+curl -s -X POST https://almadraba08.com/api/reserva \
+  -H 'Accept: application/json' -H 'Origin: https://almadraba08.com' \
   -F 'nombre=Prueba' -F 'email=tu@correo.com' \
   -F 'llegada=2027-07-03' -F 'salida=2027-07-10' \
   -F 'personas=2' -F 'consentimiento=on' -F '_lang=es' \
