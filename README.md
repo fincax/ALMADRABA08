@@ -54,6 +54,26 @@ design/
   más el handoff completo (README-handoff.md). Referencia, no producción.
 ```
 
+## ⚠️ Pendiente de confirmar antes de publicar
+
+La sección **«Antes de escribir»** (`condiciones` en `src/i18n/ui.ts`) se ha
+redactado con valores **provisionales y plausibles**, no con datos reales.
+Antes de que la web sea pública hay que confirmar uno por uno:
+
+| Campo | Valor provisional |
+| --- | --- |
+| Capacidad | Hasta cuatro personas |
+| Estancia mínima | 7 noches en julio y agosto (sábado a sábado); 3 en puentes |
+| Entrada y salida | Entrada 17:00 · salida 11:00 |
+| Incluido | Ropa de cama y toallas, limpieza final, wifi, garaje y consumos |
+| Mascotas | «Lo hablamos» |
+| Convivencia | Sin fiestas ni eventos; no se fuma dentro |
+| Reserva | Señal por transferencia; resto un mes antes |
+
+Están marcados en el código con un comentario `⚠️ PROVISIONAL`. Se editan
+todos en `src/i18n/ui.ts`, en las claves `es.condiciones` y `en.condiciones`.
+
+
 ## Identidad
 
 La paleta de la web es la revisión «mar, cielo y arena» documentada en `CLAUDE.md`, con todos los pares de texto verificados a WCAG AA.

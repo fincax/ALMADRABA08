@@ -1,0 +1,63 @@
+---
+import type { Dict } from '../i18n/ui';
+interface Props { t: Dict }
+const { t } = Astro.props;
+const c = t.condiciones;
+---
+
+<section class="condiciones-band reveal" id="condiciones">
+  <div class="container inner">
+    <div class="left">
+      <p class="kicker">{c.kicker}</p>
+      <h2 class="headline">{c.headline}</h2>
+      <p class="copy">{c.p}</p>
+    </div>
+    <dl class="lista">
+      {c.items.map((it) => (
+        <div class="fila">
+          <dt>{it.k}</dt>
+          <dd>{it.v}</dd>
+        </div>
+      ))}
+    </dl>
+  </div>
+</section>
+
+<style>
+  .condiciones-band { background: var(--sand-2); }
+  .inner {
+    padding-top: var(--section-y);
+    padding-bottom: var(--section-y);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--col-gap);
+  }
+  .left { display: flex; flex-direction: column; gap: 20px; }
+  .headline { font-size: clamp(28px, 3.2vw, 38px); line-height: 1.25; }
+  .copy { font-size: 16px; line-height: 1.75; max-width: 42ch; }
+
+  .lista { margin: 0; display: flex; flex-direction: column; }
+  .fila {
+    display: grid;
+    grid-template-columns: minmax(0, 8.5rem) minmax(0, 1fr);
+    gap: 8px 24px;
+    padding: 17px 0;
+    border-bottom: 1px solid var(--line-3);
+  }
+  .fila:first-child { padding-top: 0; }
+  .fila:last-child { border-bottom: 0; padding-bottom: 0; }
+  dt {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding-top: 3px;
+  }
+  dd { margin: 0; font-size: 15px; line-height: 1.65; color: var(--ink-soft); }
+
+  @media (max-width: 899px) {
+    .inner { grid-template-columns: minmax(0, 1fr); gap: 40px; }
+    .fila { grid-template-columns: minmax(0, 1fr); gap: 5px; }
+    dt { padding-top: 0; }
+  }
+</style>

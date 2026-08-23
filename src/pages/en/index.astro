@@ -4,8 +4,10 @@ import Nav from '../../components/Nav.astro';
 import Hero from '../../components/Hero.astro';
 import Casa from '../../components/Casa.astro';
 import Vivienda from '../../components/Vivienda.astro';
+import Galeria from '../../components/Galeria.astro';
 import Zahara from '../../components/Zahara.astro';
 import Disponibilidad from '../../components/Disponibilidad.astro';
+import Condiciones from '../../components/Condiciones.astro';
 import Contacto from '../../components/Contacto.astro';
 import Footer from '../../components/Footer.astro';
 import { ui } from '../../i18n/ui';
@@ -20,8 +22,10 @@ const t = ui[lang];
     <Hero t={t} />
     <Casa t={t} />
     <Vivienda t={t} />
+    <Galeria t={t} />
     <Zahara t={t} />
     <Disponibilidad lang={lang} t={t} />
+    <Condiciones t={t} />
     <Contacto lang={lang} t={t} />
   </main>
   <Footer t={t} />

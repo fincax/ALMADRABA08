@@ -13,6 +13,7 @@ export const ui = {
     },
     nav: {
       casa: 'La casa',
+      galeria: 'Galería',
       zahara: 'Zahara',
       disponibilidad: 'Disponibilidad',
       cta: 'Solicita tu reserva',
@@ -57,6 +58,24 @@ export const ui = {
         'Un rincón de Zahara de los Atunes',
       ],
     },
+    galeria: {
+      kicker: 'La casa por dentro',
+      headline: 'Dos dormitorios, un baño y cuarenta metros de jardín.',
+      p: 'Las fotos son nuestras y están sin retocar. Es la casa tal y como te la vas a encontrar.',
+      photos: [
+        { alt: 'El salón-comedor de Almadraba 8', label: 'Foto · salón-comedor' },
+        { alt: 'El porche de entrada y el jardín privado', label: 'Foto · porche y jardín' },
+        { alt: 'La cocina', label: 'Foto · cocina' },
+        { alt: 'El dormitorio principal', label: 'Foto · dormitorio principal' },
+        { alt: 'El segundo dormitorio', label: 'Foto · segundo dormitorio' },
+        { alt: 'El baño completo', label: 'Foto · baño' },
+        { alt: 'La piscina comunitaria y las zonas ajardinadas', label: 'Foto · piscina y zonas comunes' },
+      ],
+      openLabel: 'Ampliar foto',
+      closeLabel: 'Cerrar',
+      prevLabel: 'Foto anterior',
+      nextLabel: 'Foto siguiente',
+    },
     disponibilidad: {
       kicker: 'Disponibilidad',
       headline: 'Algunas semanas al año.',
@@ -68,6 +87,21 @@ export const ui = {
       restoValue: 'Nuestra casa',
       updatedPrefix: 'Actualizado el',
       empty: 'Estamos preparando el calendario de la próxima temporada — escríbenos con tus fechas.',
+    },
+    /* ⚠️ PROVISIONAL — confirmar con los propietarios antes de publicar. */
+    condiciones: {
+      kicker: 'Antes de escribir',
+      headline: 'Cómo funciona compartir la casa.',
+      p: 'No somos un alojamiento turístico, así que preferimos decir las cosas claras antes de que nos escribas.',
+      items: [
+        { k: 'Capacidad', v: 'Hasta cuatro personas: dos dormitorios y un baño completo.' },
+        { k: 'Estancia mínima', v: 'Siete noches en julio y agosto, de sábado a sábado. Tres noches en puentes.' },
+        { k: 'Entrada y salida', v: 'Entrada a partir de las 17:00. Salida antes de las 11:00.' },
+        { k: 'Incluido', v: 'Ropa de cama y toallas, limpieza final, wifi, plaza de garaje y consumos.' },
+        { k: 'Mascotas', v: 'Lo hablamos. Depende de las fechas y del animal.' },
+        { k: 'Convivencia', v: 'Sin fiestas ni eventos, y no se fuma dentro de la casa.' },
+        { k: 'Reserva', v: 'Se confirma con una señal por transferencia; el resto, un mes antes de la llegada.' },
+      ],
     },
     contacto: {
       kicker: 'Solicita tu reserva',
@@ -104,6 +138,7 @@ export const ui = {
     },
     nav: {
       casa: 'The house',
+      galeria: 'Gallery',
       zahara: 'Zahara',
       disponibilidad: 'Availability',
       cta: 'Request a stay',
@@ -148,6 +183,24 @@ export const ui = {
         'A corner of Zahara de los Atunes',
       ],
     },
+    galeria: {
+      kicker: 'Inside the house',
+      headline: 'Two bedrooms, one bathroom and forty metres of garden.',
+      p: 'The photographs are ours and untouched. This is the house exactly as you will find it.',
+      photos: [
+        { alt: 'The living-dining room at Almadraba 8', label: 'Photo · living-dining room' },
+        { alt: 'The entrance porch and private garden', label: 'Photo · porch and garden' },
+        { alt: 'The kitchen', label: 'Photo · kitchen' },
+        { alt: 'The main bedroom', label: 'Photo · main bedroom' },
+        { alt: 'The second bedroom', label: 'Photo · second bedroom' },
+        { alt: 'The full bathroom', label: 'Photo · bathroom' },
+        { alt: 'The shared pool and landscaped grounds', label: 'Photo · pool and grounds' },
+      ],
+      openLabel: 'Enlarge photo',
+      closeLabel: 'Close',
+      prevLabel: 'Previous photo',
+      nextLabel: 'Next photo',
+    },
     disponibilidad: {
       kicker: 'Availability',
       headline: 'A few weeks a year.',
@@ -159,6 +212,21 @@ export const ui = {
       restoValue: 'Our home',
       updatedPrefix: 'Updated',
       empty: "We are preparing next season's calendar — write to us with your dates.",
+    },
+    /* ⚠️ PROVISIONAL — confirm with the owners before publishing. */
+    condiciones: {
+      kicker: 'Before you write',
+      headline: 'How sharing the house works.',
+      p: 'We are not a holiday rental, so we would rather be clear about a few things before you write to us.',
+      items: [
+        { k: 'Capacity', v: 'Up to four people: two bedrooms and one full bathroom.' },
+        { k: 'Minimum stay', v: 'Seven nights in July and August, Saturday to Saturday. Three nights on long weekends.' },
+        { k: 'Check-in and out', v: 'Check-in from 5pm. Check-out before 11am.' },
+        { k: 'Included', v: 'Bed linen and towels, final cleaning, wifi, parking space and utilities.' },
+        { k: 'Pets', v: 'Let us talk about it. It depends on the dates and on the animal.' },
+        { k: 'House rules', v: 'No parties or events, and no smoking inside the house.' },
+        { k: 'Booking', v: 'Confirmed with a deposit by bank transfer; the balance a month before arrival.' },
+      ],
     },
     contacto: {
       kicker: 'Request a stay',

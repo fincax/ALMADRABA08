@@ -1,0 +1,170 @@
+---
+import Photo from './Photo.astro';
+import type { Dict } from '../i18n/ui';
+interface Props { t: Dict }
+const { t } = Astro.props;
+const g = t.galeria;
+---
+
+<section class="galeria container reveal" id="galeria">
+  <div class="head">
+    <div class="left">
+      <p class="kicker">{g.kicker}</p>
+      <h2 class="headline">{g.headline}</h2>
+    </div>
+    <p class="copy right">{g.p}</p>
+  </div>
+
+  <div class="grid" data-galeria>
+    {g.photos.map((ph, i) => (
+      <Photo class={`g g${i + 1}`} alt={ph.alt} label={ph.label} />
+    ))}
+  </div>
+</section>
+
+<dialog class="lightbox" data-lightbox aria-label={g.openLabel}>
+  <button type="button" class="lb-close" data-lb-close aria-label={g.closeLabel}>✕</button>
+  <button type="button" class="lb-nav lb-prev" data-lb-prev aria-label={g.prevLabel}>‹</button>
+  <img data-lb-img alt="" />
+  <button type="button" class="lb-nav lb-next" data-lb-next aria-label={g.nextLabel}>›</button>
+</dialog>
+
+<style>
+  .galeria {
+    padding-top: var(--section-y);
+    padding-bottom: var(--section-y);
+    display: flex;
+    flex-direction: column;
+    gap: 44px;
+  }
+  .head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 40px;
+  }
+  .left { display: flex; flex-direction: column; gap: 18px; max-width: 560px; }
+  .headline { font-size: clamp(28px, 3.2vw, 38px); line-height: 1.2; }
+  .right { font-size: 15px; line-height: 1.7; max-width: 380px; }
+
+  /* Retícula asimétrica de tres bandas. Alturas fijas por fila para que
+     las fotos casen entre sí sea cual sea su proporción original. */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-auto-rows: 150px;
+    gap: 18px;
+  }
+  .grid :global(.g)  { grid-row: span 2; min-width: 0; }
+  .grid :global(.g1) { grid-column: span 7; }
+  .grid :global(.g2) { grid-column: span 5; }
+  .grid :global(.g3) { grid-column: span 4; }
+  .grid :global(.g4) { grid-column: span 4; }
+  .grid :global(.g5) { grid-column: span 4; }
+  .grid :global(.g6) { grid-column: span 5; }
+  .grid :global(.g7) { grid-column: span 7; }
+
+  /* Solo las fotos reales son ampliables; los placeholders no lo son. */
+  .grid :global(img) { cursor: zoom-in; }
+
+  .lightbox {
+    width: min(94vw, 1400px);
+    max-width: 94vw;
+    height: min(92vh, 950px);
+    max-height: 92vh;
+    padding: 0;
+    border: 0;
+    background: var(--abyss);
+    color: var(--on-dark);
+  }
+  .lightbox::backdrop { background: rgba(11, 63, 71, 0.88); }
+  .lightbox img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+  }
+  .lb-close,
+  .lb-nav {
+    position: absolute;
+    z-index: 1;
+    background: rgba(11, 63, 71, 0.72);
+    color: var(--on-dark);
+    border: 1px solid rgba(175, 211, 230, 0.35);
+    font-family: var(--font-sans);
+    line-height: 1;
+    cursor: pointer;
+    transition: background var(--t), border-color var(--t);
+  }
+  .lb-close:hover,
+  .lb-nav:hover { background: var(--night); border-color: var(--sky-on-dark); }
+  .lb-close { top: 14px; right: 14px; width: 40px; height: 40px; font-size: 15px; }
+  .lb-nav {
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 64px;
+    font-size: 26px;
+  }
+  .lb-prev { left: 14px; }
+  .lb-next { right: 14px; }
+
+  @media (max-width: 899px) {
+    .head { flex-direction: column; align-items: flex-start; gap: 18px; }
+    .right { max-width: none; }
+    .grid { grid-auto-rows: 120px; gap: 12px; }
+    .grid :global(.g1),
+    .grid :global(.g2),
+    .grid :global(.g6),
+    .grid :global(.g7) { grid-column: span 12; }
+    .grid :global(.g3),
+    .grid :global(.g4),
+    .grid :global(.g5) { grid-column: span 6; }
+  }
+</style>
+
+<script>
+  // Ampliación de fotos. Se engancha solo a <img> reales: mientras los
+  // huecos sean placeholders no hay nada que ampliar y la galería
+  // funciona como una retícula estática.
+  const box = document.querySelector<HTMLDialogElement>('[data-lightbox]');
+  const grid = document.querySelector<HTMLElement>('[data-galeria]');
+  if (box && grid) {
+    const shots = Array.from(grid.querySelectorAll<HTMLImageElement>('img'));
+    const view = box.querySelector<HTMLImageElement>('[data-lb-img]');
+    const prev = box.querySelector<HTMLButtonElement>('[data-lb-prev]');
+    const next = box.querySelector<HTMLButtonElement>('[data-lb-next]');
+    let at = 0;
+
+    if (shots.length && view) {
+      const show = (i: number) => {
+        at = (i + shots.length) % shots.length;
+        view.src = shots[at].currentSrc || shots[at].src;
+        view.alt = shots[at].alt;
+      };
+      const solo = shots.length < 2;
+      prev?.toggleAttribute('hidden', solo);
+      next?.toggleAttribute('hidden', solo);
+
+      shots.forEach((img, i) => {
+        img.addEventListener('click', () => {
+          show(i);
+          box.showModal();
+        });
+      });
+      prev?.addEventListener('click', () => show(at - 1));
+      next?.addEventListener('click', () => show(at + 1));
+      box.querySelector('[data-lb-close]')?.addEventListener('click', () => box.close());
+      // Clic en el fondo (fuera de la imagen) cierra.
+      box.addEventListener('click', (e) => {
+        if (e.target === box) box.close();
+      });
+      box.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') { e.preventDefault(); show(at - 1); }
+        if (e.key === 'ArrowRight') { e.preventDefault(); show(at + 1); }
+      });
+    } else {
+      box.remove();
+    }
+  }
+</script>
