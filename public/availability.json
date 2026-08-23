@@ -1,0 +1,19 @@
+{
+  "updated": "2026-08-23",
+  "note": {
+    "es": "Disponibilidad orientativa — la confirmamos personalmente al recibir tu solicitud.",
+    "en": "Indicative availability — we confirm it personally when we receive your request."
+  },
+  "periods": [
+    { "id": "pte-dic-2026", "start": "2026-12-04", "end": "2026-12-08", "label": { "es": "Puente de diciembre", "en": "December long weekend" }, "status": "consultar" },
+    { "id": "ssanta-2027", "start": "2027-03-27", "end": "2027-04-03", "label": { "es": "Semana Santa", "en": "Easter week" }, "status": "consultar" },
+    { "id": "jul-2027-s1", "start": "2027-07-03", "end": "2027-07-10", "label": { "es": "Julio · semana 1", "en": "July · week 1" }, "status": "libre" },
+    { "id": "jul-2027-s2", "start": "2027-07-10", "end": "2027-07-17", "label": { "es": "Julio · semana 2", "en": "July · week 2" }, "status": "libre" },
+    { "id": "jul-2027-s3", "start": "2027-07-17", "end": "2027-07-24", "label": { "es": "Julio · semana 3", "en": "July · week 3" }, "status": "reservada" },
+    { "id": "jul-2027-s4", "start": "2027-07-24", "end": "2027-07-31", "label": { "es": "Julio · semana 4", "en": "July · week 4" }, "status": "libre" },
+    { "id": "ago-2027-s1", "start": "2027-07-31", "end": "2027-08-07", "label": { "es": "Agosto · semana 1", "en": "August · week 1" }, "status": "libre" },
+    { "id": "ago-2027-s2", "start": "2027-08-07", "end": "2027-08-14", "label": { "es": "Agosto · semana 2", "en": "August · week 2" }, "status": "reservada" },
+    { "id": "ago-2027-s3", "start": "2027-08-14", "end": "2027-08-21", "label": { "es": "Agosto · semana 3", "en": "August · week 3" }, "status": "libre" },
+    { "id": "ago-2027-s4", "start": "2027-08-21", "end": "2027-08-28", "label": { "es": "Agosto · semana 4", "en": "August · week 4" }, "status": "consultar" }
+  ]
+}

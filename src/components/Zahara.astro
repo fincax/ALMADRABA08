@@ -1,0 +1,55 @@
+---
+import Photo from './Photo.astro';
+import type { Dict } from '../i18n/ui';
+interface Props { t: Dict }
+const { t } = Astro.props;
+---
+
+<section class="zahara container reveal" id="zahara">
+  <div class="head">
+    <div class="left">
+      <p class="kicker">{t.zahara.kicker}</p>
+      <h2 class="headline">{t.zahara.headline}</h2>
+    </div>
+    <p class="copy right">{t.zahara.p}</p>
+  </div>
+  <div class="gallery">
+    <Photo class="g g1" alt={t.zahara.photos[0]} label="Foto · playa o dunas" />
+    <Photo class="g g2" alt={t.zahara.photos[1]} label="Foto · Sierra de la Plata" />
+    <Photo class="g g3" alt={t.zahara.photos[2]} label="Foto · detalle del pueblo" />
+  </div>
+</section>
+
+<style>
+  .zahara {
+    padding-top: var(--section-y);
+    padding-bottom: var(--section-y);
+    display: flex;
+    flex-direction: column;
+    gap: 44px;
+  }
+  .head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 40px;
+  }
+  .left { display: flex; flex-direction: column; gap: 18px; max-width: 560px; }
+  .headline { font-size: clamp(28px, 3.2vw, 38px); line-height: 1.2; }
+  .right { font-size: 15px; line-height: 1.7; max-width: 380px; }
+  .gallery {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1fr);
+    gap: 18px;
+    height: 380px;
+  }
+  .zahara :global(.g) { min-width: 0; width: 100%; height: 100%; }
+  @media (max-width: 899px) {
+    .head { flex-direction: column; align-items: flex-start; gap: 18px; }
+    .gallery {
+      grid-template-columns: minmax(0, 1fr);
+      grid-auto-rows: 220px;
+      height: auto;
+    }
+  }
+</style>

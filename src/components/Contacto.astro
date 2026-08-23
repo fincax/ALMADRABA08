@@ -1,0 +1,210 @@
+---
+import { site } from '../data/site';
+import type { Lang, Dict } from '../i18n/ui';
+interface Props { lang: Lang; t: Dict }
+const { lang, t } = Astro.props;
+const f = t.contacto.form;
+---
+
+<section class="contacto container reveal" id="contacto">
+  <div class="text">
+    <p class="kicker">{t.contacto.kicker}</p>
+    <h2 class="headline">{t.contacto.headline}</h2>
+    <p class="copy">{t.contacto.p}</p>
+    <address class="address">
+      {site.address.street}<br />
+      {site.address.area}<br />
+      {site.address.region}
+    </address>
+  </div>
+
+  <form
+    class="form"
+    id="booking-form"
+    method="post"
+    action={site.formEndpoint || undefined}
+    novalidate={false}
+    data-endpoint={site.formEndpoint}
+    data-msg-sending={f.sending}
+    data-msg-success={f.success}
+    data-msg-error={f.error}
+    data-msg-unconfigured={f.unconfigured}
+  >
+    <input type="hidden" name="_lang" value={lang} />
+    <!-- Honeypot antispam: oculto para personas, tentador para bots -->
+    <p class="hp" aria-hidden="true">
+      <label>
+        No rellenar este campo
+        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" />
+      </label>
+    </p>
+
+    <div class="two">
+      <label class="field">
+        <span class="field-label">{f.name}</span>
+        <input type="text" name="nombre" required autocomplete="name" />
+      </label>
+      <label class="field">
+        <span class="field-label">{f.email}</span>
+        <input type="email" name="email" required autocomplete="email" />
+      </label>
+    </div>
+    <div class="two three">
+      <label class="field">
+        <span class="field-label">{f.arrival}</span>
+        <input type="date" name="llegada" id="f-arrival" required />
+      </label>
+      <label class="field">
+        <span class="field-label">{f.departure}</span>
+        <input type="date" name="salida" id="f-departure" required />
+      </label>
+      <label class="field guests">
+        <span class="field-label">{f.guests}</span>
+        <input type="number" name="personas" min="1" max="6" value="2" required />
+      </label>
+    </div>
+    <label class="field">
+      <span class="field-label">{f.message}</span>
+      <textarea name="mensaje" rows="5"></textarea>
+    </label>
+    <button class="btn submit" type="submit">{f.submit}</button>
+    <p class="form-status" role="status" aria-live="polite" hidden></p>
+  </form>
+</section>
+
+<style>
+  .contacto {
+    padding-top: var(--section-y);
+    padding-bottom: var(--section-y);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--col-gap);
+  }
+  .text { display: flex; flex-direction: column; gap: 20px; }
+  .headline { font-size: clamp(28px, 3.2vw, 38px); line-height: 1.25; }
+  .address {
+    font-style: normal;
+    margin-top: 8px;
+    font-size: 14px;
+    line-height: 1.9;
+    color: var(--ink-soft);
+  }
+
+  .form { display: flex; flex-direction: column; gap: 18px; }
+  .two {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 18px;
+  }
+  .three { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 0.6fr); }
+  .field { display: flex; flex-direction: column; gap: 7px; min-width: 0; }
+  .field-label {
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  input, textarea {
+    font-family: var(--font-sans);
+    font-weight: 300;
+    font-size: 14px;
+    color: var(--ink);
+    background: var(--sand-3);
+    border: 1px solid var(--line-2);
+    border-radius: 0;
+    padding: 14px 16px;
+    width: 100%;
+    transition: border-color var(--transition);
+  }
+  input:hover, textarea:hover { border-color: var(--line-3); }
+  input:focus-visible, textarea:focus-visible {
+    outline: 2px solid var(--teal);
+    outline-offset: 0;
+    border-color: var(--teal);
+  }
+  textarea { resize: vertical; }
+  input[type='date'] { color-scheme: light; }
+  .submit { width: 100%; padding: 17px 0; }
+  .submit[disabled] { opacity: 0.6; cursor: default; }
+  .form-status { font-size: 14px; line-height: 1.6; margin: 0; }
+  .form-status.ok { color: var(--teal); }
+  .form-status.err { color: #a0522d; }
+
+  .hp {
+    position: absolute !important;
+    width: 1px; height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    margin: 0; padding: 0;
+  }
+
+  @media (max-width: 899px) {
+    .contacto { grid-template-columns: minmax(0, 1fr); }
+    .three { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+    .three .guests { grid-column: 1 / -1; }
+  }
+</style>
+
+<script>
+  const form = document.getElementById('booking-form') as HTMLFormElement | null;
+  if (form) {
+    const status = form.querySelector<HTMLParagraphElement>('.form-status')!;
+    const submit = form.querySelector<HTMLButtonElement>('.submit')!;
+    const submitLabel = submit.textContent ?? '';
+    const endpoint = form.dataset.endpoint ?? '';
+
+    const show = (msg: string, kind: 'ok' | 'err') => {
+      status.textContent = msg;
+      status.classList.remove('ok', 'err');
+      status.classList.add(kind);
+      status.hidden = false;
+    };
+
+    // Salida siempre posterior a la llegada
+    const arrival = form.querySelector<HTMLInputElement>('#f-arrival');
+    const departure = form.querySelector<HTMLInputElement>('#f-departure');
+    const today = new Date().toISOString().slice(0, 10);
+    if (arrival) arrival.min = today;
+    if (departure) departure.min = today;
+    arrival?.addEventListener('change', () => {
+      if (departure && arrival.value) {
+        departure.min = arrival.value;
+        if (departure.value && departure.value <= arrival.value) departure.value = '';
+      }
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!form.reportValidity()) return;
+      // Honeypot: si un bot lo rellenó, fingimos éxito y no enviamos nada.
+      const gotcha = form.querySelector<HTMLInputElement>('input[name="_gotcha"]');
+      if (gotcha && gotcha.value) {
+        show(form.dataset.msgSuccess ?? '', 'ok');
+        return;
+      }
+      if (!endpoint) {
+        show(form.dataset.msgUnconfigured ?? '', 'err');
+        return;
+      }
+      submit.disabled = true;
+      submit.textContent = form.dataset.msgSending ?? submitLabel;
+      status.hidden = true;
+      try {
+        const res = await fetch(endpoint, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { Accept: 'application/json' },
+        });
+        if (!res.ok) throw new Error(String(res.status));
+        show(form.dataset.msgSuccess ?? '', 'ok');
+        form.reset();
+      } catch {
+        show(form.dataset.msgError ?? '', 'err');
+      } finally {
+        submit.disabled = false;
+        submit.textContent = submitLabel;
+      }
+    });
+  }
+</script>

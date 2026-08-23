@@ -1,0 +1,34 @@
+---
+import Photo from './Photo.astro';
+import type { Dict } from '../i18n/ui';
+interface Props { t: Dict }
+const { t } = Astro.props;
+---
+
+<section class="casa container reveal" id="casa">
+  <div class="text">
+    <p class="kicker">{t.casa.kicker}</p>
+    <h2 class="headline">{t.casa.headline}</h2>
+    <p class="copy">{t.casa.p1}</p>
+    <p class="copy">{t.casa.p2}</p>
+  </div>
+  <Photo class="casa-photo" alt={t.casa.photoAlt} label="Foto · salón o jardín" />
+</section>
+
+<style>
+  .casa {
+    padding-top: var(--section-y);
+    padding-bottom: var(--section-y);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--col-gap);
+    align-items: center;
+  }
+  .text { display: flex; flex-direction: column; gap: 22px; }
+  .headline { font-size: clamp(30px, 3.4vw, 40px); line-height: 1.2; }
+  .casa :global(.casa-photo) { min-width: 0; width: 100%; height: 460px; }
+  @media (max-width: 899px) {
+    .casa { grid-template-columns: minmax(0, 1fr); }
+    .casa :global(.casa-photo) { height: 320px; }
+  }
+</style>

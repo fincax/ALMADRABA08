@@ -1,0 +1,32 @@
+---
+/**
+ * Marco de fotografía. Hasta que se entreguen las fotos reales renderiza
+ * un placeholder sobrio con la etiqueta de qué imagen va en cada hueco.
+ * Para activar una foto: colocar el archivo en /public/photos/ y pasar `src`.
+ */
+interface Props {
+  src?: string;
+  alt: string;
+  label?: string;
+  eager?: boolean;
+  class?: string;
+}
+const { src, alt, label, eager = false, class: className = '' } = Astro.props;
+---
+
+<div class={`photo-frame ${className}`}>
+  {
+    src ? (
+      <img
+        src={src}
+        alt={alt}
+        loading={eager ? 'eager' : 'lazy'}
+        decoding={eager ? 'sync' : 'async'}
+      />
+    ) : (
+      <div class="photo-placeholder" role="img" aria-label={alt}>
+        <span>{label ?? alt}</span>
+      </div>
+    )
+  }
+</div>

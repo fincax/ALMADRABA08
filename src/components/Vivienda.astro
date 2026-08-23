@@ -1,0 +1,71 @@
+---
+import type { Dict } from '../i18n/ui';
+interface Props { t: Dict }
+const { t } = Astro.props;
+---
+
+<section class="vivienda">
+  <div class="container inner reveal">
+    <p class="kicker">{t.vivienda.kicker}</p>
+    <div class="stats">
+      {
+        t.vivienda.stats.map((s) => (
+          <div class="stat">
+            <div class="n">{s.n}</div>
+            <div class="d">{s.d}</div>
+          </div>
+        ))
+      }
+    </div>
+    <div class="sep" aria-hidden="true"></div>
+    <ul class="chips" role="list">
+      {t.vivienda.chips.map((c) => <li>{c}</li>)}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .vivienda { background: var(--sand-2); }
+  .inner {
+    padding-top: 90px;
+    padding-bottom: 90px;
+    display: flex;
+    flex-direction: column;
+    gap: 44px;
+  }
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 44px 34px;
+  }
+  .stat { display: flex; flex-direction: column; gap: 8px; }
+  .n {
+    font-family: var(--font-serif);
+    font-size: 34px;
+    color: var(--teal);
+    line-height: 1.1;
+  }
+  .d { font-size: 14px; color: var(--ink-soft); line-height: 1.5; }
+  .sep { height: 1px; background: #d3c6a9; }
+  .chips {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 12px;
+  }
+  .chips li {
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #4a5b58;
+    border: 1px solid var(--line-3);
+    padding: 9px 16px;
+  }
+  @media (max-width: 899px) {
+    .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px 24px; }
+    .inner { padding-top: 64px; padding-bottom: 64px; gap: 32px; }
+  }
+</style>

@@ -1,0 +1,28 @@
+---
+import Base from '../../layouts/Base.astro';
+import Nav from '../../components/Nav.astro';
+import Hero from '../../components/Hero.astro';
+import Casa from '../../components/Casa.astro';
+import Vivienda from '../../components/Vivienda.astro';
+import Zahara from '../../components/Zahara.astro';
+import Disponibilidad from '../../components/Disponibilidad.astro';
+import Contacto from '../../components/Contacto.astro';
+import Footer from '../../components/Footer.astro';
+import { ui } from '../../i18n/ui';
+
+const lang = 'en';
+const t = ui[lang];
+---
+
+<Base lang={lang} t={t}>
+  <Nav lang={lang} t={t} />
+  <main>
+    <Hero t={t} />
+    <Casa t={t} />
+    <Vivienda t={t} />
+    <Zahara t={t} />
+    <Disponibilidad lang={lang} t={t} />
+    <Contacto lang={lang} t={t} />
+  </main>
+  <Footer t={t} />
+</Base>

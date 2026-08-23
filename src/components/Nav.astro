@@ -1,0 +1,168 @@
+---
+import type { Lang, Dict } from '../i18n/ui';
+interface Props { lang: Lang; t: Dict }
+const { t } = Astro.props;
+---
+
+<header class="nav">
+  <div class="container nav-inner">
+    <a href="#top" class="wordmark brand" aria-label="Almadraba 8">Almadraba 8</a>
+
+    <nav class="links" aria-label="principal">
+      <a href="#casa">{t.nav.casa}</a>
+      <a href="#zahara">{t.nav.zahara}</a>
+      <a href="#disponibilidad">{t.nav.disponibilidad}</a>
+      <a href="#contacto" class="cta">{t.nav.cta}</a>
+      <a href={t.otherLang.href} class="lang" lang={t.otherLang.code}>{t.otherLang.label}</a>
+    </nav>
+
+    <button class="menu-btn" aria-expanded="false" aria-controls="mobile-menu" data-open-label={t.nav.menuOpen} data-close-label={t.nav.menuClose} aria-label={t.nav.menuOpen}>
+      <span class="menu-icon" aria-hidden="true"></span>
+    </button>
+  </div>
+
+  <div class="mobile-menu" id="mobile-menu" hidden>
+    <nav aria-label="principal móvil">
+      <a href="#casa">{t.nav.casa}</a>
+      <a href="#zahara">{t.nav.zahara}</a>
+      <a href="#disponibilidad">{t.nav.disponibilidad}</a>
+      <a href="#contacto" class="cta">{t.nav.cta}</a>
+      <a href={t.otherLang.href} class="lang" lang={t.otherLang.code}>{t.otherLang.label}</a>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: rgba(243, 235, 218, 0.94);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+  .brand {
+    font-weight: 300;
+    font-size: clamp(11px, 1.3vw, 13px);
+    letter-spacing: 0.32em;
+    color: var(--teal);
+  }
+  .brand:hover { color: var(--teal-light); }
+  .links { display: flex; align-items: center; gap: 34px; }
+  .links a:not(.cta) {
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .links a:not(.cta):hover { color: var(--teal); }
+  .links .lang { color: var(--muted); }
+  .cta {
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--sand) !important;
+    background: var(--teal);
+    padding: 11px 22px;
+    transition: background var(--transition);
+  }
+  .cta:hover { background: var(--night); }
+
+  .menu-btn {
+    display: none;
+    background: none;
+    border: none;
+    padding: 10px;
+    margin: -10px;
+    cursor: pointer;
+  }
+  .menu-icon,
+  .menu-icon::before,
+  .menu-icon::after {
+    display: block;
+    width: 22px;
+    height: 1.5px;
+    background: var(--ink);
+    transition: transform var(--transition), opacity var(--transition);
+  }
+  .menu-icon { position: relative; }
+  .menu-icon::before,
+  .menu-icon::after { content: ''; position: absolute; left: 0; }
+  .menu-icon::before { top: -7px; }
+  .menu-icon::after { top: 7px; }
+  .menu-btn[aria-expanded='true'] .menu-icon { background: transparent; }
+  .menu-btn[aria-expanded='true'] .menu-icon::before { transform: translateY(7px) rotate(45deg); }
+  .menu-btn[aria-expanded='true'] .menu-icon::after { transform: translateY(-7px) rotate(-45deg); }
+
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    inset: 61px 0 0;
+    background: var(--sand);
+    z-index: 9;
+    overflow-y: auto;
+  }
+  .mobile-menu nav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 40px var(--pad-x);
+  }
+  .mobile-menu a {
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink);
+    padding: 16px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .mobile-menu a.cta {
+    color: var(--sand);
+    text-align: center;
+    margin-top: 18px;
+    border-bottom: none;
+  }
+  .mobile-menu a.lang { color: var(--muted); border-bottom: none; }
+
+  @media (max-width: 899px) {
+    .links { display: none; }
+    .menu-btn { display: block; }
+    .mobile-menu:not([hidden]) { display: block; }
+  }
+</style>
+
+<script>
+  const btn = document.querySelector<HTMLButtonElement>('.menu-btn');
+  const menu = document.getElementById('mobile-menu');
+  if (btn && menu) {
+    const setOpen = (open: boolean) => {
+      btn.setAttribute('aria-expanded', String(open));
+      btn.setAttribute(
+        'aria-label',
+        (open ? btn.dataset.closeLabel : btn.dataset.openLabel) ?? ''
+      );
+      menu.hidden = !open;
+      document.body.style.overflow = open ? 'hidden' : '';
+    };
+    btn.addEventListener('click', () =>
+      setOpen(btn.getAttribute('aria-expanded') !== 'true')
+    );
+    menu.addEventListener('click', (e) => {
+      if ((e.target as HTMLElement).closest('a')) setOpen(false);
+    });
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && btn.getAttribute('aria-expanded') === 'true') setOpen(false);
+    });
+  }
+</script>

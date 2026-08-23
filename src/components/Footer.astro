@@ -1,0 +1,57 @@
+---
+import { site } from '../data/site';
+import type { Dict } from '../i18n/ui';
+interface Props { t: Dict }
+const { t } = Astro.props;
+---
+
+<footer class="footer" data-dark>
+  <div class="container inner">
+    <div class="brand-block">
+      <div class="wordmark fw">Almadraba 8</div>
+      <div class="descriptor">{t.footer.descriptor}</div>
+    </div>
+    <nav class="links" aria-label="pie">
+      <a href={site.instagram || '#'} rel="noopener noreferrer" target={site.instagram ? '_blank' : undefined}>{t.footer.instagram}</a>
+      <a href="#top">{t.footer.legal}</a>
+      <span class="domain">{site.domain}</span>
+    </nav>
+  </div>
+</footer>
+
+<style>
+  .footer { background: var(--ink); }
+  .inner {
+    padding-top: 56px;
+    padding-bottom: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+    flex-wrap: wrap;
+  }
+  .brand-block { display: flex; flex-direction: column; gap: 12px; }
+  .fw {
+    font-weight: 200;
+    font-size: clamp(12px, 1.5vw, 16px);
+    letter-spacing: 0.34em;
+    padding-left: 0.34em;
+    color: var(--on-dark);
+  }
+  .descriptor {
+    font-size: clamp(7.5px, 1vw, 10px);
+    font-weight: 400;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: var(--on-dark-muted);
+  }
+  .links { display: flex; gap: 28px; align-items: baseline; }
+  .links a, .domain {
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--on-dark-muted);
+  }
+  .links a:hover { color: var(--on-dark); }
+</style>
