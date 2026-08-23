@@ -4,6 +4,9 @@ import type { Dict } from '../i18n/ui';
 interface Props { t: Dict }
 const { t } = Astro.props;
 const g = t.galeria;
+// Los nombres de hueco no dependen del idioma: son los archivos de
+// src/assets/photos/ y van en el mismo orden que g.photos.
+const huecos = ['salon', 'porche', 'cocina', 'dormitorio-principal', 'dormitorio-segundo', 'bano', 'piscina'];
 ---
 
 <section class="galeria container reveal" id="galeria">
@@ -17,7 +20,7 @@ const g = t.galeria;
 
   <div class="grid" data-galeria>
     {g.photos.map((ph, i) => (
-      <Photo class={`g g${i + 1}`} alt={ph.alt} label={ph.label} />
+      <Photo hueco={huecos[i]} class={`g g${i + 1}`} alt={ph.alt} label={ph.label} />
     ))}
   </div>
 </section>

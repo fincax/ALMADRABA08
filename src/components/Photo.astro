@@ -1,27 +1,54 @@
 ---
 /**
- * Marco de fotografía. Hasta que se entreguen las fotos reales renderiza
- * un placeholder sobrio con la etiqueta de qué imagen va en cada hueco.
- * Para activar una foto: colocar el archivo en /public/photos/ y pasar `src`.
+ * Marco de fotografía.
+ *
+ * Con `hueco`, busca el archivo correspondiente en `src/assets/photos/`
+ * (ver `src/data/photos.ts`): si está, lo sirve optimizado — AVIF y WebP
+ * con `srcset`; si no, deja el placeholder sobrio con la etiqueta de qué
+ * imagen va ahí. Así se pueden ir entregando las fotos de una en una sin
+ * tocar el código.
  */
+import { Picture } from 'astro:assets';
+import { fotoDe } from '../data/photos';
+
 interface Props {
-  src?: string;
+  hueco?: string;
   alt: string;
   label?: string;
   eager?: boolean;
+  /** Anchuras del srcset. Ajustar en huecos a sangre como la portada. */
+  widths?: number[];
+  sizes?: string;
   class?: string;
 }
-const { src, alt, label, eager = false, class: className = '' } = Astro.props;
+const {
+  hueco,
+  alt,
+  label,
+  eager = false,
+  widths = [480, 768, 1024, 1440],
+  sizes = '(max-width: 899px) 100vw, 50vw',
+  class: className = '',
+} = Astro.props;
+
+const foto = hueco ? fotoDe(hueco) : undefined;
+// Nunca pedir más ancho que el original: evita reescalados hacia arriba.
+const anchuras = foto ? widths.filter((w) => w <= foto.width) : [];
+if (foto && anchuras.length === 0) anchuras.push(foto.width);
 ---
 
 <div class={`photo-frame ${className}`}>
   {
-    src ? (
-      <img
-        src={src}
+    foto ? (
+      <Picture
+        src={foto}
         alt={alt}
+        formats={['avif', 'webp']}
+        widths={anchuras}
+        sizes={sizes}
         loading={eager ? 'eager' : 'lazy'}
         decoding={eager ? 'sync' : 'async'}
+        fetchpriority={eager ? 'high' : 'auto'}
       />
     ) : (
       <div class="photo-placeholder" role="img" aria-label={alt}>

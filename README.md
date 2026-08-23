@@ -74,6 +74,23 @@ Están marcados en el código con un comentario `⚠️ PROVISIONAL`. Se editan
 todos en `src/i18n/ui.ts`, en las claves `es.condiciones` y `en.condiciones`.
 
 
+## Subir contenido sin tocar código
+
+**Fotos.** Deja el archivo en `src/assets/photos/` con el nombre del hueco
+(`hero.jpg`, `salon.jpg`, `playa.jpg`…). La compilación genera AVIF, WebP y
+JPEG en cuatro anchos, con `srcset` y `width`/`height` para que no salte el
+layout. Un hueco sin archivo mantiene su placeholder, así que se pueden
+subir de una en una. La tabla completa de huecos está en
+`src/assets/photos/README.md`.
+
+**Secciones en espera.** «Cómo llegar» (`entorno`) y «Nuestro Zahara»
+(`nuestroZahara`) están montadas pero **no se renderizan** mientras su lista
+`items` esté vacía: no dejan hueco ni rastro en el HTML. Para publicarlas
+basta con rellenar la lista en `src/i18n/ui.ts`, en ES y EN. No están en el
+nav a propósito — son contenido de la zona de Zahara, y seis entradas de
+menú serían demasiadas.
+
+
 ## Identidad
 
 La paleta de la web es la revisión «mar, cielo y arena» documentada en `CLAUDE.md`, con todos los pares de texto verificados a WCAG AA.

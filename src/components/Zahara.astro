@@ -14,9 +14,9 @@ const { t } = Astro.props;
     <p class="copy right">{t.zahara.p}</p>
   </div>
   <div class="gallery">
-    <Photo class="g g1" alt={t.zahara.photos[0]} label="Foto · playa o dunas" />
-    <Photo class="g g2" alt={t.zahara.photos[1]} label="Foto · Sierra de la Plata" />
-    <Photo class="g g3" alt={t.zahara.photos[2]} label="Foto · detalle del pueblo" />
+    <Photo hueco="playa" sizes="(max-width: 899px) 100vw, 50vw" class="g g1" alt={t.zahara.photos[0]} label="Foto · playa o dunas" />
+    <Photo hueco="sierra" sizes="(max-width: 899px) 100vw, 25vw" class="g g2" alt={t.zahara.photos[1]} label="Foto · Sierra de la Plata" />
+    <Photo hueco="pueblo" sizes="(max-width: 899px) 100vw, 25vw" class="g g3" alt={t.zahara.photos[2]} label="Foto · detalle del pueblo" />
   </div>
 </section>
 

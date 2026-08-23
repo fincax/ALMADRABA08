@@ -1,0 +1,68 @@
+---
+/**
+ * «Cómo llegar» — distancias reales al entorno.
+ *
+ * En espera de contenido: si `t.entorno.items` está vacío la sección no se
+ * renderiza y no deja hueco. Para publicarla basta con rellenar la lista en
+ * `src/i18n/ui.ts` (claves `es.entorno.items` y `en.entorno.items`).
+ */
+import type { Dict } from '../i18n/ui';
+interface Props { t: Dict }
+const { t } = Astro.props;
+const e = t.entorno;
+const hayContenido = e.items.length > 0;
+---
+
+{hayContenido && (
+  <section class="entorno container reveal" id="entorno">
+    <div class="left">
+      <p class="kicker">{e.kicker}</p>
+      <h2 class="headline">{e.headline}</h2>
+      {e.p && <p class="copy">{e.p}</p>}
+    </div>
+    <dl class="lista">
+      {e.items.map((it) => (
+        <div class="fila">
+          <dt>{it.k}</dt>
+          <dd>{it.v}</dd>
+        </div>
+      ))}
+    </dl>
+  </section>
+)}
+
+<style>
+  .entorno {
+    padding-top: var(--section-y);
+    padding-bottom: var(--section-y);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--col-gap);
+  }
+  .left { display: flex; flex-direction: column; gap: 20px; }
+  .headline { font-size: clamp(28px, 3.2vw, 38px); line-height: 1.25; }
+  .copy { font-size: 16px; line-height: 1.75; max-width: 42ch; }
+  .lista { margin: 0; display: flex; flex-direction: column; }
+  .fila {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .fila:first-child { padding-top: 0; }
+  .fila:last-child { border-bottom: 0; padding-bottom: 0; }
+  dt { font-size: 15px; color: var(--ink); }
+  dd {
+    margin: 0;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: right;
+  }
+  @media (max-width: 899px) {
+    .entorno { grid-template-columns: minmax(0, 1fr); gap: 40px; }
+  }
+</style>

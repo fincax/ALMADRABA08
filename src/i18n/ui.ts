@@ -76,6 +76,22 @@ export const ui = {
       prevLabel: 'Foto anterior',
       nextLabel: 'Foto siguiente',
     },
+    /* En espera de contenido: mientras `items` esté vacío la sección no se
+       renderiza. Para publicarla basta con rellenar la lista. */
+    entorno: {
+      kicker: 'Cómo llegar',
+      headline: 'Dónde está exactamente.',
+      p: '',
+      items: [] as { k: string; v: string }[],
+    },
+    /* En espera de contenido: recomendaciones vuestras de verdad. Vacío,
+       no se renderiza. */
+    nuestroZahara: {
+      kicker: 'Nuestro Zahara',
+      headline: 'Los sitios a los que vamos nosotros.',
+      p: '',
+      items: [] as { title: string; text: string }[],
+    },
     disponibilidad: {
       kicker: 'Disponibilidad',
       headline: 'Algunas semanas al año.',
@@ -200,6 +216,20 @@ export const ui = {
       closeLabel: 'Close',
       prevLabel: 'Previous photo',
       nextLabel: 'Next photo',
+    },
+    /* Awaiting content: while `items` is empty the section does not render. */
+    entorno: {
+      kicker: 'Getting here',
+      headline: 'Where it is, exactly.',
+      p: '',
+      items: [] as { k: string; v: string }[],
+    },
+    /* Awaiting content: the owners' own recommendations. */
+    nuestroZahara: {
+      kicker: 'Our Zahara',
+      headline: 'The places we go ourselves.',
+      p: '',
+      items: [] as { title: string; text: string }[],
     },
     disponibilidad: {
       kicker: 'Availability',

@@ -1,0 +1,72 @@
+---
+/**
+ * «Nuestro Zahara» — recomendaciones en primera persona.
+ *
+ * En espera de contenido: si `t.nuestroZahara.items` está vacío la sección
+ * no se renderiza. Es la sección que más distingue una casa de un alquiler,
+ * así que solo tiene sentido con sitios de verdad — nunca inventados.
+ * Se rellena en `src/i18n/ui.ts`.
+ */
+import type { Dict } from '../i18n/ui';
+interface Props { t: Dict }
+const { t } = Astro.props;
+const n = t.nuestroZahara;
+const hayContenido = n.items.length > 0;
+---
+
+{hayContenido && (
+  <section class="nz-band reveal" id="nuestro-zahara">
+    <div class="container inner">
+      <div class="head">
+        <p class="kicker">{n.kicker}</p>
+        <h2 class="headline">{n.headline}</h2>
+        {n.p && <p class="copy">{n.p}</p>}
+      </div>
+      <ul class="sitios">
+        {n.items.map((it) => (
+          <li>
+            <h3>{it.title}</h3>
+            <p>{it.text}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+)}
+
+<style>
+  .nz-band { background: var(--sand-2); }
+  .inner {
+    padding-top: var(--section-y);
+    padding-bottom: var(--section-y);
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+  }
+  .head { display: flex; flex-direction: column; gap: 18px; max-width: 620px; }
+  .headline { font-size: clamp(28px, 3.2vw, 38px); line-height: 1.25; }
+  .copy { font-size: 16px; line-height: 1.75; }
+  .sitios {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 40px 34px;
+  }
+  .sitios li {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-top: 20px;
+    border-top: 1px solid var(--sea);
+  }
+  .sitios h3 {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 1.25;
+    color: var(--teal);
+  }
+  .sitios p { font-size: 15px; line-height: 1.7; color: var(--ink-soft); }
+</style>
