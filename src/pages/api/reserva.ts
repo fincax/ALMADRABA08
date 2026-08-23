@@ -18,12 +18,16 @@
  */
 import type { APIRoute } from 'astro';
 import nodemailer from 'nodemailer';
+import { site } from '../../data/site';
 
 export const prerender = false;
 
 /* ── Configuración ─────────────────────────────────────────────────────── */
 
 const env = (k: string) => (process.env[k] ?? '').trim();
+
+/** Versión de la política que el visitante acepta al marcar la casilla. */
+const POLITICA = site.legalUpdated;
 
 const SMTP_HOST = env('SMTP_HOST');
 const SMTP_PORT = Number(env('SMTP_PORT') || 587);
@@ -182,6 +186,17 @@ const escapar = (s: string) =>
   );
 
 function componer(d: Solicitud) {
+  // Constancia del consentimiento. El RGPD (art. 7.1) exige poder demostrar
+  // que se prestó, y el correo es el único registro que queda de cada
+  // solicitud: sin esta línea no habría prueba de nada. Se anota el momento
+  // y la versión de la política aceptada, pero NO la IP — sería otro dato
+  // personal más y la fecha basta para acreditarlo.
+  const cuando = new Date().toLocaleString('es-ES', {
+    dateStyle: 'long',
+    timeStyle: 'short',
+    timeZone: 'Europe/Madrid',
+  });
+
   const filas: [string, string][] = [
     ['Nombre', d.nombre],
     ['Email', d.email],
@@ -189,6 +204,7 @@ function componer(d: Solicitud) {
     ['Salida', d.salida],
     ['Personas', String(d.personas)],
     ['Idioma', d.lang === 'es' ? 'Español' : 'Inglés'],
+    ['Consentimiento', `Aceptado el ${cuando} · política del ${POLITICA}`],
   ];
 
   const texto =

@@ -77,6 +77,21 @@ const legalHref = lang === 'es' ? '/legal/#privacidad' : '/en/legal/#privacidad'
     </label>
     <button class="btn submit" type="submit">{f.submit}</button>
     <p class="form-status" role="status" aria-live="polite" hidden></p>
+    {
+      /* Información básica en el propio formulario — el «modelo por capas»
+         que recomienda la AEPD: lo esencial aquí, el detalle en /legal/.
+         Solo se muestra si los datos del titular están puestos; mientras
+         falten, la compilación avisa y la web no debe publicarse. */
+      site.legal.holder && site.legal.email && (
+        <p
+          class="basic-info"
+          set:html={f.basicInfo
+            .replace('{titular}', site.legal.holder)
+            .replace('{correo}', `<a href="mailto:${site.legal.email}">${site.legal.email}</a>`)
+            .replace('{enlace}', `<a href="${legalHref}">${f.consentLink}</a>`)}
+        />
+      )
+    }
   </form>
 </section>
 
@@ -123,6 +138,15 @@ const legalHref = lang === 'es' ? '/legal/#privacidad' : '/en/legal/#privacidad'
   .consent input:hover { border-color: var(--teal); }
   .consent :global(a) { color: var(--teal); text-decoration: underline; text-underline-offset: 2px; }
   .consent :global(a:hover) { color: var(--teal-deep); }
+
+  .basic-info {
+    margin-top: 4px;
+    font-size: 11.5px;
+    line-height: 1.65;
+    color: var(--muted);
+  }
+  .basic-info :global(a) { color: var(--muted); text-decoration: underline; text-underline-offset: 2px; }
+  .basic-info :global(a:hover) { color: var(--teal-deep); }
   .two {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);

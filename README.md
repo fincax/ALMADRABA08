@@ -132,13 +132,28 @@ falten, la página `/legal/` los muestra marcados en rojo como
 **PENDIENTE DE COMPLETAR** — a propósito: es preferible que cante en
 pantalla a que la web se publique con el aviso legal a medias.
 
+### Cumplimiento: qué hay y qué no
+
+| Pieza | Estado |
+| --- | --- |
+| Aviso legal (LSSI art. 10) | `/legal/` y `/en/legal/` — faltan los datos del titular |
+| Política de privacidad (RGPD art. 13) | En la misma página, con anclaje `#privacidad` |
+| Consentimiento en el formulario | Casilla obligatoria, enlazada a la política |
+| Constancia del consentimiento (RGPD art. 7.1) | El correo registra fecha, hora y versión de la política aceptada |
+| Información básica junto al formulario | Modelo por capas de la AEPD; aparece al rellenar `site.legal` |
+| Banner de cookies | **No hace falta** — ver abajo |
+
 ### Sobre el cumplimiento
 
 La web **no instala cookies**, no usa analítica y no carga recursos de
 terceros (las tipografías se sirven desde el propio dominio), así que **no
-necesita banner de cookies**. Lo único que trata datos personales es el
-formulario, que lleva casilla de consentimiento obligatoria enlazada a la
-política de privacidad.
+necesita banner de cookies**. No es un descuido: es la consecuencia de no
+haber metido nada que las ponga, y conviene no perderlo. Añadir Google
+Analytics, un mapa incrustado, un vídeo de YouTube o una fuente servida
+desde Google obligaría a poner banner y a rehacer la política.
+
+Lo único que trata datos personales es el formulario, con casilla de
+consentimiento obligatoria y constancia de cuándo se prestó.
 
 Como el formulario se procesa en servidor propio y el correo sale por IONOS
 —ambos en la Unión Europea—, **no hay transferencias internacionales** que

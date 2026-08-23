@@ -132,6 +132,8 @@ export const ui = {
         message: 'Cuéntanos un poco más',
         consent: 'He leído y acepto la {enlace}. Usaremos tus datos solo para responderte.',
         consentLink: 'política de privacidad',
+        basicInfo:
+          'Responsable: {titular}. Finalidad: atender tu solicitud de reserva. Legitimación: tu consentimiento. Destinatarios: nadie ajeno. Derechos: acceso, rectificación, supresión y los demás que recoge la {enlace}, escribiendo a {correo}.',
         submit: 'Enviar solicitud de reserva',
         sending: 'Enviando…',
         success: 'Gracias — hemos recibido tu solicitud y te respondemos personalmente en cuanto podamos.',
@@ -281,6 +283,8 @@ export const ui = {
         message: 'Tell us a bit more',
         consent: 'I have read and accept the {enlace}. We will use your data only to reply to you.',
         consentLink: 'privacy policy',
+        basicInfo:
+          'Controller: {titular}. Purpose: handling your booking request. Legal basis: your consent. Recipients: no third parties. Rights: access, rectification, erasure and the others set out in the {enlace}, by writing to {correo}.',
         submit: 'Send booking request',
         sending: 'Sending…',
         success: 'Thank you — we have received your request and will reply personally as soon as we can.',
