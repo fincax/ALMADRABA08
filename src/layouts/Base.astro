@@ -5,11 +5,18 @@ import type { Lang, Dict } from '../i18n/ui';
 interface Props {
   lang: Lang;
   t: Dict;
+  /** Ruta de esta página en ES y EN. Por defecto, la portada. */
+  paths?: { es: string; en: string };
+  /** Título y descripción propios (páginas que no son la portada). */
+  title?: string;
+  description?: string;
 }
-const { lang, t } = Astro.props;
-const canonical = new URL(lang === 'es' ? '/' : '/en/', Astro.site);
-const alternateEs = new URL('/', Astro.site);
-const alternateEn = new URL('/en/', Astro.site);
+const { lang, t, paths = { es: '/', en: '/en/' }, title, description } = Astro.props;
+const canonical = new URL(lang === 'es' ? paths.es : paths.en, Astro.site);
+const alternateEs = new URL(paths.es, Astro.site);
+const alternateEn = new URL(paths.en, Astro.site);
+const pageTitle = title ?? t.meta.title;
+const pageDescription = description ?? t.meta.description;
 ---
 
 <!doctype html>
@@ -18,8 +25,8 @@ const alternateEn = new URL('/en/', Astro.site);
     <meta charset="utf-8" />
     <script>document.documentElement.classList.add('js');</script>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{t.meta.title}</title>
-    <meta name="description" content={t.meta.description} />
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDescription} />
     <link rel="canonical" href={canonical} />
     <link rel="alternate" hreflang="es" href={alternateEs} />
     <link rel="alternate" hreflang="en" href={alternateEn} />
@@ -46,8 +53,8 @@ const alternateEn = new URL('/en/', Astro.site);
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Almadraba 8" />
-    <meta property="og:title" content={t.meta.title} />
-    <meta property="og:description" content={t.meta.description} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={new URL('/og.png', Astro.site)} />
     <meta property="og:image:width" content="1200" />

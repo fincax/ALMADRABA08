@@ -1,8 +1,9 @@
 ---
 import { site } from '../data/site';
-import type { Dict } from '../i18n/ui';
-interface Props { t: Dict }
-const { t } = Astro.props;
+import type { Dict, Lang } from '../i18n/ui';
+interface Props { t: Dict; lang?: Lang }
+const { t, lang = 'es' } = Astro.props;
+const legalHref = lang === 'es' ? '/legal/' : '/en/legal/';
 ---
 
 <footer class="footer" data-dark>
@@ -13,7 +14,7 @@ const { t } = Astro.props;
     </div>
     <nav class="links" aria-label="pie">
       <a href={site.instagram || '#'} rel="noopener noreferrer" target={site.instagram ? '_blank' : undefined}>{t.footer.instagram}</a>
-      <a href="#top">{t.footer.legal}</a>
+      <a href={legalHref}>{t.footer.legal}</a>
       <span class="domain">{site.domain}</span>
     </nav>
   </div>

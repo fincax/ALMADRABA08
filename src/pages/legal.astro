@@ -1,0 +1,46 @@
+---
+import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import LegalPage from '../components/LegalPage.astro';
+import { ui } from '../i18n/ui';
+import { legal } from '../i18n/legal';
+import { site } from '../data/site';
+
+const lang = 'es' as const;
+const t = ui[lang];
+const l = legal[lang];
+
+// Aviso en consola durante la compilación: es la última red antes de que
+// la web salga con el aviso legal a medias.
+const faltan = Object.entries(site.legal)
+  .filter(([, v]) => !v)
+  .map(([k]) => k);
+if (faltan.length) {
+  console.warn(
+    `\n  ⚠️  ALMADRABA 8 — aviso legal incompleto.\n` +
+      `     Faltan en src/data/site.ts → site.legal: ${faltan.join(', ')}.\n` +
+      `     La web NO debe publicarse hasta rellenarlos.\n`,
+  );
+}
+if (!site.formEndpoint) {
+  console.warn(
+    `  ⚠️  ALMADRABA 8 — formulario sin endpoint.\n` +
+      `     Pega la URL de Formspree en src/data/site.ts → formEndpoint.\n`,
+  );
+}
+---
+
+<Base
+  lang={lang}
+  t={t}
+  title={l.title}
+  description={l.description}
+  paths={{ es: '/legal/', en: '/en/legal/' }}
+>
+  <Nav lang={lang} t={t} />
+  <main>
+    <LegalPage lang={lang} t={t} l={l} updated={site.legalUpdated} />
+  </main>
+  <Footer lang={lang} t={t} />
+</Base>

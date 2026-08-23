@@ -4,6 +4,7 @@ import type { Lang, Dict } from '../i18n/ui';
 interface Props { lang: Lang; t: Dict }
 const { lang, t } = Astro.props;
 const f = t.contacto.form;
+const legalHref = lang === 'es' ? '/legal/#privacidad' : '/en/legal/#privacidad';
 ---
 
 <section class="contacto container reveal" id="contacto">
@@ -31,6 +32,7 @@ const f = t.contacto.form;
     data-msg-unconfigured={f.unconfigured}
   >
     <input type="hidden" name="_lang" value={lang} />
+    <input type="hidden" name="_subject" value="Almadraba 8 · solicitud de reserva" />
     <!-- Honeypot antispam: oculto para personas, tentador para bots -->
     <p class="hp" aria-hidden="true">
       <label>
@@ -67,6 +69,10 @@ const f = t.contacto.form;
       <span class="field-label">{f.message}</span>
       <textarea name="mensaje" rows="5"></textarea>
     </label>
+    <label class="consent">
+      <input type="checkbox" name="consentimiento" required />
+      <span set:html={f.consent.replace('{enlace}', `<a href="${legalHref}">${f.consentLink}</a>`)} />
+    </label>
     <button class="btn submit" type="submit">{f.submit}</button>
     <p class="form-status" role="status" aria-live="polite" hidden></p>
   </form>
@@ -91,6 +97,30 @@ const f = t.contacto.form;
   }
 
   .form { display: flex; flex-direction: column; gap: 18px; }
+
+  /* Consentimiento RGPD. Obligatorio: sin él no hay base jurídica
+     para tratar los datos del formulario. */
+  .consent {
+    display: flex;
+    align-items: flex-start;
+    gap: 11px;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    cursor: pointer;
+  }
+  .consent input {
+    width: 16px;
+    height: 16px;
+    min-width: 16px;
+    margin-top: 2px;
+    padding: 0;
+    accent-color: var(--teal);
+    cursor: pointer;
+  }
+  .consent input:hover { border-color: var(--teal); }
+  .consent :global(a) { color: var(--teal); text-decoration: underline; text-underline-offset: 2px; }
+  .consent :global(a:hover) { color: var(--teal-deep); }
   .two {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);

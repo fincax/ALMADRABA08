@@ -91,6 +91,48 @@ nav a propósito — son contenido de la zona de Zahara, y seis entradas de
 menú serían demasiadas.
 
 
+## Poner la web en marcha
+
+Todo lo imprescindible está en `src/data/site.ts`. La compilación avisa por
+consola mientras falte cualquiera de estas dos cosas.
+
+### 1. Formulario (Formspree)
+
+1. Crear una cuenta en [formspree.io](https://formspree.io) y un formulario nuevo.
+2. Copiar su endpoint — tiene la forma `https://formspree.io/f/XXXXXXXX`.
+3. Pegarlo en `site.formEndpoint`.
+
+El formulario ya está preparado para Formspree: envía `FormData` con
+`Accept: application/json`, usa `_gotcha` como honeypot antispam (la
+convención de Formspree) y `_subject` para el asunto del correo. No hay
+captcha visible. Mientras el endpoint esté vacío, el formulario avisa al
+visitante en lugar de fingir que ha enviado algo.
+
+### 2. Datos del titular (obligatorio por ley)
+
+Rellenar `site.legal` con `holder`, `taxId`, `email` y `postal`. Mientras
+falten, la página `/legal/` los muestra marcados en rojo como
+**PENDIENTE DE COMPLETAR** — a propósito: es preferible que cante en
+pantalla a que la web se publique con el aviso legal a medias.
+
+### Sobre el cumplimiento
+
+La web **no instala cookies**, no usa analítica y no carga recursos de
+terceros (las tipografías se sirven desde el propio dominio), así que **no
+necesita banner de cookies**. Lo único que trata datos personales es el
+formulario, que lleva casilla de consentimiento obligatoria enlazada a la
+política de privacidad.
+
+Como el envío pasa por Formspree (Estados Unidos), la política declara la
+transferencia internacional. Si cambiáis de servicio, hay que actualizar ese
+apartado en `src/i18n/legal.ts`.
+
+> Los textos legales están redactados a partir de la LSSI-CE (art. 10) y del
+> RGPD (art. 13) para este caso concreto, pero **no son asesoramiento
+> jurídico**. Conviene que los revise un profesional antes de publicar,
+> sobre todo los plazos de conservación y el régimen fiscal del alquiler.
+
+
 ## Identidad
 
 La paleta de la web es la revisión «mar, cielo y arena» documentada en `CLAUDE.md`, con todos los pares de texto verificados a WCAG AA.

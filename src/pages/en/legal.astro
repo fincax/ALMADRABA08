@@ -1,0 +1,27 @@
+---
+import Base from '../../layouts/Base.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import LegalPage from '../../components/LegalPage.astro';
+import { ui } from '../../i18n/ui';
+import { legal } from '../../i18n/legal';
+import { site } from '../../data/site';
+
+const lang = 'en' as const;
+const t = ui[lang];
+const l = legal[lang];
+---
+
+<Base
+  lang={lang}
+  t={t}
+  title={l.title}
+  description={l.description}
+  paths={{ es: '/legal/', en: '/en/legal/' }}
+>
+  <Nav lang={lang} t={t} />
+  <main>
+    <LegalPage lang={lang} t={t} l={l} updated={site.legalUpdated} />
+  </main>
+  <Footer lang={lang} t={t} />
+</Base>
